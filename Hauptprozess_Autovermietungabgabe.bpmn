@@ -26,6 +26,9 @@
         <bpmn:flowNodeRef>EndEvent_054ofyb</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>EndEvent_0s9xe2g</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>Angebot_angenommen</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Task_0utc7qz</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>BoundaryEvent_0xg7lml</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>EndEvent_1fos9zq</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:exclusiveGateway id="ExclusiveGateway_1ftqbth" name="Mietberechtigung erfüllt?">
@@ -182,6 +185,16 @@ Star Autovermietung</camunda:inputParameter>
       <bpmn:outgoing>SequenceFlow_1j5wygq</bpmn:outgoing>
       <bpmn:messageEventDefinition messageRef="Message_0h0tkvl" />
     </bpmn:intermediateCatchEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0s24qoi" sourceRef="BoundaryEvent_0xg7lml" targetRef="EndEvent_1fos9zq" />
+    <bpmn:task id="Task_0utc7qz" name="Mietauto prüfen" />
+    <bpmn:boundaryEvent id="BoundaryEvent_0xg7lml" name="Mietauto nicht  vorhanden" attachedToRef="Task_0utc7qz">
+      <bpmn:outgoing>SequenceFlow_0s24qoi</bpmn:outgoing>
+      <bpmn:errorEventDefinition />
+    </bpmn:boundaryEvent>
+    <bpmn:endEvent id="EndEvent_1fos9zq">
+      <bpmn:incoming>SequenceFlow_0s24qoi</bpmn:incoming>
+      <bpmn:terminateEventDefinition />
+    </bpmn:endEvent>
   </bpmn:process>
   <bpmn:message id="Message_1fxa5lw" name="Viielen Dank wir nehmen Ihr Angebot gerne an" />
   <bpmn:process id="Prozess_vermietung" name="AutovermietungKunde" isExecutable="true">
@@ -249,7 +262,7 @@ service.messageEventReceived("mail", id.getId());</camunda:script>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_0070wkk">
       <bpmndi:BPMNShape id="Participant_0xlcke7_di" bpmnElement="Participant_0xlcke7" isHorizontal="true">
-        <dc:Bounds x="156" y="373" width="1410" height="456" />
+        <dc:Bounds x="156" y="373" width="1410" height="524" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BusinessRuleTask_06gh5rc_di" bpmnElement="Task_1929mfh">
         <dc:Bounds x="669" y="587" width="100" height="80" />
@@ -353,7 +366,7 @@ service.messageEventReceived("mail", id.getId());</camunda:script>
         <di:waypoint x="1382" y="518" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="Lane_1md60kd_di" bpmnElement="Lane_1md60kd" isHorizontal="true">
-        <dc:Bounds x="186" y="373" width="1380" height="456" />
+        <dc:Bounds x="186" y="373" width="1380" height="524" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1lhrs1z_di" bpmnElement="SequenceFlow_1lhrs1z">
         <di:waypoint x="1422" y="724" />
@@ -472,6 +485,23 @@ service.messageEventReceived("mail", id.getId());</camunda:script>
         <bpmndi:BPMNLabel>
           <dc:Bounds x="1460" y="749" width="55" height="27" />
         </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_0o6qpk2_di" bpmnElement="BoundaryEvent_0xg7lml">
+        <dc:Bounds x="773" y="767" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="711" y="800" width="72" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Task_0utc7qz_di" bpmnElement="Task_0utc7qz">
+        <dc:Bounds x="741" y="705" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0s24qoi_di" bpmnElement="SequenceFlow_0s24qoi">
+        <di:waypoint x="791" y="803" />
+        <di:waypoint x="791" y="819" />
+        <di:waypoint x="902" y="819" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1mk0nuy_di" bpmnElement="EndEvent_1fos9zq">
+        <dc:Bounds x="902" y="801" width="36" height="36" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
