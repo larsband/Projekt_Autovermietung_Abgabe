@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="Definitions_0jauak7" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.0.1">
+  <decision id="Rabatt_DMN" name="Rabatt_DMN">
+    <extensionElements>
+      <biodi:bounds x="205" y="81" width="180" height="80" />
+      <biodi:edge source="InputData_1o0k0pk">
+        <biodi:waypoints x="232" y="246" />
+        <biodi:waypoints x="232" y="161" />
+      </biodi:edge>
+      <biodi:edge source="InputData_1otvgkl">
+        <biodi:waypoints x="452" y="122" />
+        <biodi:waypoints x="385" y="121" />
+      </biodi:edge>
+      <biodi:edge source="InputData_0al7htu">
+        <biodi:waypoints x="361" y="245" />
+        <biodi:waypoints x="361" y="161" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1o0k0pk" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_1otvgkl" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_0al7htu" />
+    </informationRequirement>
+    <decisionTable id="decisionTable_1" hitPolicy="COLLECT" aggregation="SUM">
+      <input id="input_1" label="Rabattzeitraum">
+        <inputExpression id="inputExpression_1" typeRef="date">
+          <text>Abholdatum</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0fpy6p5" label="Mietdauer">
+        <inputExpression id="LiteralExpression_136vubj" typeRef="integer">
+          <text>Mietdauer</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_15uyb5f" label="Temperatur">
+        <inputExpression id="LiteralExpression_16i74kx" typeRef="integer">
+          <text>temperatur</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Rabatt" name="Rabatt" typeRef="double" />
+      <rule id="DecisionRule_1mhbb3e">
+        <inputEntry id="UnaryTests_1a8hq5f">
+          <text>[date and time("2019-05-01T00:00:00")..date and time("2019-09-30T00:00:00")]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1rc59rw">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_08ch2uw">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1v3tkel">
+          <text>3.99</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0txaq9j">
+        <inputEntry id="UnaryTests_1776e0v">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_06dcf6o">
+          <text>[1..7]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04h0yhg">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1gxrh3p">
+          <text>4.99</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_09h29iy">
+        <inputEntry id="UnaryTests_176boug">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0acdnkt">
+          <text>[8..30]</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0xi4okr">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0ariwuq">
+          <text>5.99</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_14ls6pk">
+        <inputEntry id="UnaryTests_1ab84yl">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0njzy7j">
+          <text>&gt;30</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_190lxx9">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1ax03j6">
+          <text>9.99</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_1u1xoyc">
+        <inputEntry id="UnaryTests_0za6ew1">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_12pglbh">
+          <text></text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1m5vzt1">
+          <text>&gt;=20</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1f6e17n">
+          <text>12.99</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <inputData id="InputData_1o0k0pk" name="Mietdauer">
+    <extensionElements>
+      <biodi:bounds x="160" y="246" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_0al7htu" name="Abholdatum">
+    <extensionElements>
+      <biodi:bounds x="307" y="245" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_1otvgkl" name="Temperatur">
+    <extensionElements>
+      <biodi:bounds x="452" y="99" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+</definitions>

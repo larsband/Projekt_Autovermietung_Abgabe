@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/DMN/20151101/dmn.xsd" xmlns:biodi="http://bpmn.io/schema/dmn/biodi/1.0" id="AutovermietungDMN" name="DRD" namespace="http://camunda.org/schema/1.0/dmn" exporter="Camunda Modeler" exporterVersion="3.0.1">
+  <decision id="Berechtigung_Mieten" name="Berechtigungsprüfung Autovermietung">
+    <extensionElements>
+      <biodi:bounds x="311" y="177" width="180" height="80" />
+      <biodi:edge source="InputData_1y042vi">
+        <biodi:waypoints x="280" y="220" />
+        <biodi:waypoints x="311" y="220" />
+      </biodi:edge>
+      <biodi:edge source="KnowledgeSource_1njb447">
+        <biodi:waypoints x="401" y="144" />
+        <biodi:waypoints x="401" y="174" />
+      </biodi:edge>
+      <biodi:edge source="InputData_05mg5nn">
+        <biodi:waypoints x="465" y="287" />
+        <biodi:waypoints x="465" y="257" />
+      </biodi:edge>
+      <biodi:edge source="InputData_12xq55x">
+        <biodi:waypoints x="371" y="287" />
+        <biodi:waypoints x="371" y="257" />
+      </biodi:edge>
+    </extensionElements>
+    <informationRequirement>
+      <requiredInput href="#InputData_1y042vi" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_05mg5nn" />
+    </informationRequirement>
+    <informationRequirement>
+      <requiredInput href="#InputData_12xq55x" />
+    </informationRequirement>
+    <authorityRequirement>
+      <requiredAuthority href="#KnowledgeSource_1njb447" />
+    </authorityRequirement>
+    <decisionTable id="decisionTable_1">
+      <input id="input_1" label="Fahreralter">
+        <inputExpression id="inputExpression_1" typeRef="integer">
+          <text>Alter</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0kgo5mv" label="Führerschein">
+        <inputExpression id="LiteralExpression_02g241w" typeRef="boolean">
+          <text>Fuehrerschein</text>
+        </inputExpression>
+      </input>
+      <input id="InputClause_0211o4z" label="Fahrzeugtyp">
+        <inputExpression id="LiteralExpression_1c5672n" typeRef="string">
+          <text>Fahrzeugtyp</text>
+        </inputExpression>
+      </input>
+      <output id="output_1" label="Berechtigung" name="Berechtigung" typeRef="boolean" />
+      <rule id="DecisionRule_0wsxunt">
+        <description>Der Kunde darf ein Auto  ausleihen</description>
+        <inputEntry id="UnaryTests_15av5v9">
+          <text>&gt;=18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_005sr1r">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_035nfcb">
+          <text>"Kleinwagen"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0s3hmef">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_04zgkwb">
+        <inputEntry id="UnaryTests_1fnle6p">
+          <text>&gt;=18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_185unr2">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0j05da2">
+          <text>"Transporter"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_00lk9ze">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0pjtnmk">
+        <inputEntry id="UnaryTests_0wki5v6">
+          <text>&gt;=18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1cyhpco">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0gcpit4">
+          <text>"Kombi"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1eyd1yx">
+          <text>true</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_076lalj">
+        <description>Der Kunde besitzt keinen Führerschein</description>
+        <inputEntry id="UnaryTests_0mopydl">
+          <text>&gt;=18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0brfp0a">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1lyzcyk">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_02qg851">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_182smta">
+        <description>Der Kunde ist zu Jung um ein Auto auszuleihen</description>
+        <inputEntry id="UnaryTests_0qwzwmd">
+          <text>&lt;18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1f82u80">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1q5k5f6">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1d4s13n">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_0tjrolt">
+        <description>Der Kunde ist zu Jung um ein Auto auszuleihen und besitzt keinen Führerschein</description>
+        <inputEntry id="UnaryTests_1l1yfw0">
+          <text>&lt;18</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0jze9h1">
+          <text>false</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_04l6ggm">
+          <text></text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_0gihfie">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+      <rule id="DecisionRule_081wzm3">
+        <description>Der Kunde ist zu Jung um einen Sportwagen auszuleihen</description>
+        <inputEntry id="UnaryTests_0khepiu">
+          <text>&lt;25</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_1ulox22">
+          <text>true</text>
+        </inputEntry>
+        <inputEntry id="UnaryTests_0mqdq6y">
+          <text>"Sportwagen"</text>
+        </inputEntry>
+        <outputEntry id="LiteralExpression_1uuh7ne">
+          <text>false</text>
+        </outputEntry>
+      </rule>
+    </decisionTable>
+  </decision>
+  <knowledgeSource id="KnowledgeSource_1njb447" name="Richtlinien Mietbedingungen">
+    <extensionElements>
+      <biodi:bounds x="350" y="81" width="100" height="63" />
+    </extensionElements>
+  </knowledgeSource>
+  <inputData id="InputData_1y042vi" name="Führerschein">
+    <extensionElements>
+      <biodi:bounds x="155" y="196" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_05mg5nn" name="Alter des Kunden">
+    <extensionElements>
+      <biodi:bounds x="435" y="287" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <inputData id="InputData_12xq55x" name="Fahrzeugtyp">
+    <extensionElements>
+      <biodi:bounds x="275" y="287" width="125" height="45" />
+    </extensionElements>
+  </inputData>
+  <decision id="Ausgabe_Berechtigung_DMN" name="Ausgabe_Berechtigung_DMN">
+    <extensionElements>
+      <biodi:bounds x="564" y="177" width="180" height="80" />
+      <biodi:edge source="Berechtigung_Mieten">
+        <biodi:waypoints x="491" y="217" />
+        <biodi:waypoints x="564" y="217" />
+      </biodi:edge>
+    </extensionElements>
+    <variable id="InformationItem_1l6xq29" name="Ausgabeberechtigung" />
+    <informationRequirement>
+      <requiredDecision href="#Berechtigung_Mieten" />
+    </informationRequirement>
+    <literalExpression id="LiteralExpression_1iac0rn" expressionLanguage="groovy">
+      <text>def Ausgabeberechtigung = []
+Ausgabeberechtigung.addAll(Berechtigung)
+Ausgabeberechtigung.addAll(Anmerkung)
+return Ausgabeberechtigung</text>
+    </literalExpression>
+  </decision>
+</definitions>
