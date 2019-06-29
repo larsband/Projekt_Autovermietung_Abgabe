@@ -167,7 +167,7 @@
     <informationRequirement>
       <requiredDecision href="#Fahrzeugtypauswahl" />
     </informationRequirement>
-    <literalExpression id="LiteralExpression_0o9l43t" expressionLanguage="javascript">
+    <literalExpression id="LiteralExpression_0o9l43t" expressionLanguage="groovy">
       <text>def Ausgabepreis = []
 Ausgabepreis.addAll(KostenProTag)
 Ausgabepreis.addAll(Endpreis)
