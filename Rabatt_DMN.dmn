@@ -43,6 +43,7 @@
       </input>
       <output id="output_1" label="Rabatt" name="Rabatt" typeRef="double" />
       <rule id="DecisionRule_1mhbb3e">
+        <description>Mietet der Kunde in den Zeitaum zwischen den 01.05 und dem 30.09 erhält einen Rabatt von 3,99€</description>
         <inputEntry id="UnaryTests_1a8hq5f">
           <text>[date and time("2019-05-01T00:00:00")..date and time("2019-09-30T00:00:00")]</text>
         </inputEntry>
@@ -57,6 +58,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_0txaq9j">
+        <description>Beträgt die Mietdauer zwischen 1 und 7 Tagen erhält der Kunde einen Rabatt von 4,99€</description>
         <inputEntry id="UnaryTests_1776e0v">
           <text></text>
         </inputEntry>
@@ -71,6 +73,7 @@
         </outputEntry>
       </rule>
       <rule id="DecisionRule_09h29iy">
+        <description>Beträgt die Mietdauer zwischen 8 und 30 Tagen erhält der Kunde einen Rabatt von 9,99€</description>
         <inputEntry id="UnaryTests_176boug">
           <text></text>
         </inputEntry>
@@ -81,10 +84,11 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_0ariwuq">
-          <text>5.99</text>
+          <text>9.99</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_14ls6pk">
+        <description>Beträgt die Mietdauer mehr als 30 Tage erhält der Kunde einen Rabatt von 19,99€</description>
         <inputEntry id="UnaryTests_1ab84yl">
           <text></text>
         </inputEntry>
@@ -95,10 +99,11 @@
           <text></text>
         </inputEntry>
         <outputEntry id="LiteralExpression_1ax03j6">
-          <text>9.99</text>
+          <text>19.99</text>
         </outputEntry>
       </rule>
       <rule id="DecisionRule_1u1xoyc">
+        <description>Ist die Temperatur größer gleich 20 Grad erhält der Kunde einen Rabatt von 12,99€</description>
         <inputEntry id="UnaryTests_0za6ew1">
           <text></text>
         </inputEntry>

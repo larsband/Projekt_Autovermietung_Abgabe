@@ -64,7 +64,7 @@
 if ( fahrzeugv == true ) {
     execution.setVariable("FahrzeugReservierung", true);
 } else if ( fahrzeugv == false) {
-  throw new org.camunda.bpm.engine.delegate.BpmnError("FahrzeugError", "Aktuell ist der Fahrzeugtyp nicht verfügbar.  Ist ist nicht mgölich das Fahrzeug zu reservieren");
+  throw new org.camunda.bpm.engine.delegate.BpmnError("FahrzeugError");
 }</bpmn:script>
     </bpmn:scriptTask>
     <bpmn:boundaryEvent id="BoundaryEvent_0wk59l7" name="Auto nicht verfügbar" attachedToRef="Task_111m6lg">
@@ -82,9 +82,7 @@ leider haben wir den von Ihnen gewünschten Fahrzeugtyp: ${Fahrzeugtyp} im Momen
 Deswegen können wir Ihnen im Moment kein Angebot anbieten.
 
 Mit freundlichen Grüßen Ihre 
-star Autoversicherung
-
-</camunda:inputParameter>
+star Autoversicherung</camunda:inputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>mail-send</camunda:connectorId>
         </camunda:connector>
@@ -150,8 +148,11 @@ Kosten pro Tag:${KostenProTag} €
 Mietdauer:${Mietdauer} Tage
 Abholdatum: ${Abholdatum}
 
+Das Angebot ist eine Woche gültig, sollten wir nach 1 Woche keine Antwort von Ihnen erhalten haben läuft das Angebot ab.
+
 Mit freundliche Grüßen Ihre
-Star Autovermietung</camunda:inputParameter>
+Star Autovermietung
+</camunda:inputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>mail-send</camunda:connectorId>
         </camunda:connector>
@@ -248,7 +249,7 @@ Star Autovermietung</camunda:inputParameter>
           <camunda:formField id="Mietdauer" label="Mietdauer?" type="long" />
           <camunda:formField id="Abholdatum" label="Ab welchen Datum möchte der Kunde das Fahrzeug anmieten?" type="date" />
           <camunda:formField id="Mailadresse" label="Mailadresse:" type="string" defaultValue="bandikow@th-brandenburg.de" />
-          <camunda:formField id="Name" label="Name des Kunden:" type="string" defaultValue="maik" />
+          <camunda:formField id="Name" label="Name des Kunden:" type="string" defaultValue="Maik" />
           <camunda:formField id="Alter" label="Alter des Kunden:" type="long" />
           <camunda:formField id="Fuehrerschein" label="Führerschein vorhanden?" type="boolean" />
         </camunda:formData>

@@ -50,6 +50,7 @@
       </input>
       <output id="output_1" label="Endpreis" name="Endpreis" typeRef="double" />
       <rule id="DecisionRule_0qzdtp9">
+        <description></description>
         <inputEntry id="UnaryTests_0qzbmco">
           <text></text>
         </inputEntry>
