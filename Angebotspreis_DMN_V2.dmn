@@ -148,7 +148,7 @@
       <biodi:bounds x="182" y="149" width="125" height="45" />
     </extensionElements>
   </inputData>
-  <decision id="Ausgabe_Preis" name="Ausgabe Daten Preis">
+  <decision id="Ausgabe_Preis" name="Ausgabepreis">
     <extensionElements>
       <biodi:bounds x="276" y="437" width="180" height="80" />
       <biodi:edge source="MietpreisBerechnung">
@@ -167,7 +167,7 @@
     <informationRequirement>
       <requiredDecision href="#Fahrzeugtypauswahl" />
     </informationRequirement>
-    <literalExpression id="LiteralExpression_0o9l43t" expressionLanguage="groovy">
+    <literalExpression id="LiteralExpression_0o9l43t" expressionLanguage="javascript">
       <text>def Ausgabepreis = []
 Ausgabepreis.addAll(KostenProTag)
 Ausgabepreis.addAll(Endpreis)

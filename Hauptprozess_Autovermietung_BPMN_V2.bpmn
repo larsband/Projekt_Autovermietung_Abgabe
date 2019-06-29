@@ -196,7 +196,7 @@ Star Autovermietung
     <bpmn:sequenceFlow id="SequenceFlow_1sn55zj" sourceRef="Task_0nri90w" targetRef="Task_1r62luu" />
     <bpmn:sequenceFlow id="SequenceFlow_1ovuj79" sourceRef="Task_1r62luu" targetRef="Task_0rkehjn" />
     <bpmn:sequenceFlow id="SequenceFlow_1lgveyz" sourceRef="Task_0rkehjn" targetRef="ExclusiveGateway_0s8gftm" />
-    <bpmn:businessRuleTask id="Task_1r62luu" name="Angebotspreis ermitteln" camunda:resultVariable="Endpreis" camunda:decisionRef="MietpreisBerechnung" camunda:mapDecisionResult="singleEntry">
+    <bpmn:businessRuleTask id="Task_1r62luu" name="Angebotspreis ermitteln" camunda:resultVariable="Ausgabepreis" camunda:decisionRef="Ausgabe_Preis" camunda:mapDecisionResult="singleEntry">
       <bpmn:incoming>SequenceFlow_1sn55zj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ovuj79</bpmn:outgoing>
     </bpmn:businessRuleTask>
@@ -207,6 +207,10 @@ Star Autovermietung
           <camunda:formField id="KostenProTag" label="Kosten pro Tag" type="string" />
           <camunda:formField id="Rabatt" label="Rabatt:" type="string" />
         </camunda:formData>
+        <camunda:executionListener event="start">
+          <camunda:script scriptFormat="Javascript">execution.setVariable("Endpreis", Ausgabepreis[1]);
+execution.setVariable("KostenProTag", Ausgabepreis[0]);</camunda:script>
+        </camunda:executionListener>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1ovuj79</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1lgveyz</bpmn:outgoing>
