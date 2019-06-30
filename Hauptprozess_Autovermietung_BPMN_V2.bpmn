@@ -78,11 +78,11 @@ if ( fahrzeugv == true ) {
             <camunda:inputParameter name="to">${Mailadresse}</camunda:inputParameter>
             <camunda:inputParameter name="subject">Mietabsage: ${Fahrzeugtyp} nicht verfügbar</camunda:inputParameter>
             <camunda:inputParameter name="text">Guten Tag sehr geehrte(r) ${Name},
-leider haben wir den von Ihnen gewünschten Fahrzeugtyp: ${Fahrzeugtyp} im Moment nicht im Angebot.
+leider ist der von Ihnen gewünschten Fahrzeugtyp: "${Fahrzeugtyp}" im Moment nicht verfügbar.
 Deswegen können wir Ihnen im Moment kein Angebot anbieten.
 
 Mit freundlichen Grüßen Ihre 
-star Autoversicherung</camunda:inputParameter>
+Star Autoversicherung</camunda:inputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>mail-send</camunda:connectorId>
         </camunda:connector>
@@ -151,8 +151,7 @@ Abholdatum: ${Abholdatum}
 Das Angebot ist eine Woche gültig, sollten wir nach 1 Woche keine Antwort von Ihnen erhalten haben läuft das Angebot ab.
 
 Mit freundliche Grüßen Ihre
-Star Autovermietung
-</camunda:inputParameter>
+Star Autovermietung</camunda:inputParameter>
           </camunda:inputOutput>
           <camunda:connectorId>mail-send</camunda:connectorId>
         </camunda:connector>
@@ -200,11 +199,11 @@ Star Autovermietung
       <bpmn:incoming>SequenceFlow_1sn55zj</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ovuj79</bpmn:outgoing>
     </bpmn:businessRuleTask>
-    <bpmn:userTask id="Task_0rkehjn" name="Angebot prüfen">
+    <bpmn:userTask id="Task_0rkehjn" name="Angebot prüfen" camunda:assignee="demo">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="Endpreis" label="Endpris" type="string" />
-          <camunda:formField id="KostenProTag" label="Kosten pro Tag" type="string" />
+          <camunda:formField id="Endpreis" label="Endpreis:" type="string" />
+          <camunda:formField id="KostenProTag" label="Kosten pro Tag:" type="string" />
           <camunda:formField id="Rabatt" label="Rabatt:" type="string" />
         </camunda:formData>
         <camunda:executionListener event="start">
