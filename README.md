@@ -42,12 +42,14 @@ Hauptprozess (Hauptprozess_Autovermietung_BPMN_V2):
 Der Hauptprozess beginnt mit einer Kundenanfrage zur Anmietung eins Wagens. Zuerst werden die Daten durch den Bearbeiter eingegeben und anhand der Mietrichtlinien überprüft. Nach der Prüfung wird je nach Output der DMN, durch ein Exklusives Gateway die Bedigungen geprüft, ob der potentielle Mieter überhaupt berechtigt ist, ein Wagen anzumieten (Überprüfung des Alters, Führerscheinbesitz, Fahrzeugtyp). Sollte dies nicht der Fall sein, wird eine Mietabsage versendet und der Prozess wird beendet. Sollte eine Anmietung möglich sein, wird im nächsten Schritt über eine paralleles Gateway in einem Teilprozess der mögliche Rabatt geprüft, danach der Angebotspreis ermittelt (dabei wird der Fahrzeugtyp, der Preistabelle der Mietfahrzeuge und der Mietdauer der Mietpreis berechnet) und das erstellte Angebot abschließend durch einen Mitarbeiter geprüft sowie die Verfügbarkeit des buchenden Wagens geprüft und das Auto reserviert- Sollte das Auto nicht verfügbar sein wird der Kunde informiert und der Prozess beendet. Nachdem diese Prozesse parallel abgelaufen sind, werden diese wieder zusammengeführt und falls möglich (Auto verfügbar) das Angebot an den Kunden versendet. Der potentielle Kunde prüft jetzt seinerseits das Angebot und kann das Angebot annehmen und eine Auftragsbestätigung senden oder dieses ablehnen und eine Absage senden. Über ein eventbasiertes Gateway wird der Prozess entsprechend der Vorentscheidungen beendet: Angebot angenommen -> das Fahrzeug wird vermietet, Angebot abgelehnt -> das Fahrzeug wird nicht vermietet oder der Kunde antwortet nicht innerhalb einer Woche -> die Angebotsdauer ist abgelaufen und es findet auch keine Vermietung statt.
 
 **Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):**
- ![Rabatt Subprozess](/image/Rabatt_Subprozess_BPMN_V2.bpmn.png)
+
+![Rabatt Subprozess](/image/Rabatt_Subprozess_BPMN_V2.bpmn.png)
  
 Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
 
 **DMN Modell 1 (Berechtigung_DMN_V2.dmn):**
- ![Berechtigung_DMN](/image/Berechtigung_DMN_V2.png)
+
+![Berechtigung_DMN](/image/Berechtigung_DMN_V2.png)
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
 
