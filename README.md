@@ -1,7 +1,6 @@
 # Dokumentation Projekt Autovermietung
 
 
-
 ##  Beschreibung
 
 Team: Lars Bandikow, Martin Dittmann, Holger Theiler 
@@ -42,11 +41,13 @@ Hauptprozess (Hauptprozess_Autovermietung_BPMN_V2):
 Der Hauptprozess beginnt mit einer Kundenanfrage zur Anmietung eins Wagens. Zuerst werden die Daten durch den Bearbeiter eingegeben und anhand der Mietrichtlinien überprüft. Nach der Prüfung wird je nach Output der DMN, durch ein Exklusives Gateway die Bedigungen geprüft, ob der potentielle Mieter überhaupt berechtigt ist, ein Wagen anzumieten (Überprüfung des Alters, Führerscheinbesitz, Fahrzeugtyp). Sollte dies nicht der Fall sein, wird eine Mietabsage versendet und der Prozess wird beendet. Sollte eine Anmietung möglich sein, wird im nächsten Schritt über eine paralleles Gateway in einem Teilprozess der mögliche Rabatt geprüft, danach der Angebotspreis ermittelt (dabei wird der Fahrzeugtyp, der Preistabelle der Mietfahrzeuge und der Mietdauer der Mietpreis berechnet) und das erstellte Angebot abschließend durch einen Mitarbeiter geprüft sowie die Verfügbarkeit des buchenden Wagens geprüft und das Auto reserviert- Sollte das Auto nicht verfügbar sein wird der Kunde informiert und der Prozess beendet. Nachdem diese Prozesse parallel abgelaufen sind, werden diese wieder zusammengeführt und falls möglich (Auto verfügbar) das Angebot an den Kunden versendet. Der potentielle Kunde prüft jetzt seinerseits das Angebot und kann das Angebot annehmen und eine Auftragsbestätigung senden oder dieses ablehnen und eine Absage senden. Über ein eventbasiertes Gateway wird der Prozess entsprechend der Vorentscheidungen beendet: Angebot angenommen -> das Fahrzeug wird vermietet, Angebot abgelehnt -> das Fahrzeug wird nicht vermietet oder der Kunde antwortet nicht innerhalb einer Woche -> die Angebotsdauer ist abgelaufen und es findet auch keine Vermietung statt.
 
 **Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):**
+
 ![Rabatt Subprozess](/image/Rabatt_Subprozess_BPMN_V2.bpmn.png)
  
 Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
 
 **DMN Modell 1 (Berechtigung_DMN_V2.dmn):**
+
 ![Berechtigung_DMN](/image/Berechtigung_DMN_V2.png)
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
@@ -114,6 +115,7 @@ Die DMN Tabelle „Fahrzeugtyp Auswahl“ evaluiert die Berechtigung ob der pote
 Für das Versenden der Nachricht per Service Task „Mietabsage versenden“ wird der Connector ```mail-send``` verwendet, über die eine E-Mail versendet wird. Die Service Task könnte auch als Send Task modelliert werden, wir wollten nur die verschiedenen Möglichkeiten austesten und haben uns in diesem Fall für eine Service Task entschieden. Von der Implementierung gibt es jedenfalls keinen Unterschied bei der Verwendung des Connectors ```mail-send```. Die Mail wird direkt an die Emailadresse gesendet, die zu Beginn des Prozesses im Formularfeld „Mailadresse“ eingegeben wurde.
 
 Ausführliche Tutorials, wie der Mail Versand und Empfang ohne Java umgesetzt werden kann, finden sich unter:
+
 https://github.com/camunda/camunda-bpm-mail
 
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
@@ -131,6 +133,7 @@ if ( fahrzeugv == true ) {
 ```
 
 Eine ausführliche Erklärung, wie das Error Event mit JavaScript verwendet wird, ist auf folgender Webseite nachzulesen:
+
 https://medium.com/@stephenrussett/throwing-bpmn-errors-with-javascript-in-camunda-c678f4b7d9ff
 
 
@@ -152,6 +155,7 @@ In der darauffolgenden Entscheidungstabelle 2 „Rabatt_DMN“ wird über die Hi
 
 Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht, wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. 
 Eine ausführliche Anleitung zu eingehenden Nachrichten ohne Java befindet sich auf folgenden Seiten:
+
 https://github.com/camunda/camunda-bpm-mail
 
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
@@ -159,6 +163,7 @@ https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 Sollte sich der Kunde innerhalb einer Woche nicht melden löst das Timer Event aus
 Das Timerevent ist aktuell auf ```1000s``` eingestellt, was jedoch nur exemplarisch zum Testen des Prozesses gewählt wurde.
 Nähere Informationen zur Anwendung des Timer Events finden sich hier:
+
 https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 
 Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle 3.2 „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
@@ -184,6 +189,7 @@ Das aktuelle Modell hat noch einige Schwachstellen, z.B. werden aktuell die Proz
 
 Unsere gesamte Implementierung fand ohne die Verwendung von Java und Maven statt, wodurch die Möglichkeiten der Implementierung allerdings eingeschränkt wird.
 So war es nicht möglich, eigene Formulare (Embedded Task Forms, External Task Forms) einzubinden. Erstellte Formulare ließen sich nicht deployen ohne die Verwendung von Maven. So gibt es zwar eine Anleitung online, die wir leider in der Praxis nicht bei uns nicht umsetzen konnten:
+
 https://medium.com/@stephenrussett/deploying-embedded-forms-with-camunda-rest-api-84cf8010f8c1
 
 
