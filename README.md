@@ -102,7 +102,9 @@ Bild
 Für das Versenden der Nachricht per Service Task „Mietabsage versenden“ wird der Connector ```mail-send``` verwendet, über die eine E-Mail versendet wird. Die Service Task könnte auch als Send Task modelliert werden, wir wollten nur die verschiedenen Möglichkeiten austesten und haben uns in diesem Fall für eine Service Task entschieden. Von der Implementierung gibt es jedenfalls keinen Unterschied bei der Verwendung des Connectors ```mail-send```. Die Mail wird direkt an die Emailadresse gesendet, die zu Beginn des Prozesses im Formularfeld „Mailadresse“ eingegeben wurde.
 
 Ausführliche Tutorials, wie der Mail Versand und Empfang ohne Java umgesetzt werden kann, finden sich unter:
+
 https://github.com/camunda/camunda-bpm-mail
+
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
 Das Error Event ist an der Script Task „Auto reservieren“ angeheftet. Ist das Fahrzeug verfügbar wird durch die Variable „Fahrzeugverfügbarkeit“ ein ```true``` übergeben und der Prozess läuft normal weiter. Wird ein ```false``` übergeben, löst das Error Event aus und der Kunde wird per Email informiert und der Prozess wird über ein Terminate Event beendet. Das Terminate Event ist notwendig damit alle Prozesse beendet werden, ansonsten wäre durch das parallele Gateway der andere Pfad noch aktiv und der Prozess würde nicht beenden. Der dazugehörige Javascript Code der Script Task „Auto reservieren“ ist in der folgenden Abbildung zu sehen.
@@ -117,6 +119,7 @@ if ( fahrzeugv == true ) {
 ```
 
 Eine ausführliche Erklärung, wie das Error Event mit JavaScript verwendet wird, ist auf folgender Webseite nachzulesen:
+
 https://medium.com/@stephenrussett/throwing-bpmn-errors-with-javascript-in-camunda-c678f4b7d9ff
 
 In der Call Activity „Rabatt ermitteln“ wird das BPMN Modell „Rabatt_Supprozess_BPMN_V2.bpmn“ aufgerufen, in diesem der Rabatt berechnet wird. In der Service Task „Temperatur ermitteln“ wird die externe API ```http://api.openweathermap.org/data/2.5/weather?zip=12309,de&appid=3af927f89da1cf2ac68bd304b55c4cf0``` über den ```http-connector``` aufgerufen. Dabei werden aktuellen Wetterdaten für den Postleitzahlbereich 12309 Berlin abgerufen. Im Anschluss wird per JavaScript die Temperatur aus den Informationen herausgefiltert sowie in Grad Celsius umgerechnet und im Anschluss in der Variable ```temperatur``` abgespeichert. 
@@ -133,13 +136,16 @@ In der darauffolgenden Entscheidungstabelle „Rabatt_DMN“ wird über die Hit 
 
 Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. 
 Eine ausführliche Anleitung zu eingehenden Nachrichten ohne Java befindet sich auf folgenden Seiten:
+
 https://github.com/camunda/camunda-bpm-mail
+
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
 Sollte sich der Kunde innerhalb einer Woche nicht melden löst das Timer Event aus
 Das Timerevent ist aktuell auf ```1000s``` eingestellt, was jedoch nur exemplarisch zum Testen des Prozesses gewählt wurde.
 
 Nähere Informationen zur Anwendung des Timer Events finden sich hier:
+
 https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 
 Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
@@ -160,7 +166,7 @@ Nach und nach haben wir während des Projektes durch viel Recherche neue Element
 Das aktuelle Modell hat noch einige Schwachstellen, z.B. werden aktuell die Prozesseingaben nicht automatisch auf Gültigkeit überprüft, so ist es möglich das sowohl der Mietzeitraum als auch das Abholdatum in der Vergangenheit sein können. In einer Zukünftigen Version sollte dies nicht mehr möglich sein und bereits beim Absenden des Formulars eine Fehlermeldung erscheinen.
 
 Unsere gesamte Implementierung fand ohne die Verwendung von Java und Maven statt, wodurch die Möglichkeiten der Implementierung allerdings eingeschränkt wird.
-So war es nicht möglich, eigene Formulare (Embedded Task Forms, External Task Forms) einzubinden. Erstellte Formulare ließen sich nicht deployen ohne die Verwendung von Maven. So gab es zwar eine Anleitung online, die wir leider in der Praxis nicht bei uns nicht umsetzen konnten.
+So war es nicht möglich, eigene Formulare (Embedded Task Forms, External Task Forms) einzubinden. Erstellte Formulare ließen sich nicht deployen ohne die Verwendung von Maven. So gibt es zwar eine Anleitung online, die wir leider in der Praxis nicht bei uns nicht umsetzen konnten:
 
 https://medium.com/@stephenrussett/deploying-embedded-forms-with-camunda-rest-api-84cf8010f8c1
 
