@@ -53,7 +53,7 @@ Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung ge
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
 
-**Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn):** 
+**Entscheidungstabelle 1 (Entscheidungstabelle_1.jpg):** 
 In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zur Anmietung dargestellt: Ist der Kunde 18 Jahre oder älter (>=18) und im Besitz eines Führerscheins (Führerschein = true) darf er einen Kleinwagen, Transporter oder Kombi ausleihen; besitzt der Kunde keinen Führerschein (Führerschein = false),  darf er kein Auto ausleihen; ist der Kunde jünger als 18 Jahre (Fahreralter <18) darf er auch kein Auto ausleihen; und ist der Kunde 25 Jahre oder älter (Fahreralter >=25) und im Besitz eines Führerscheins (Führerschein = true) darf er auch einen Sportwagen ausleihen.
 
 **Entscheidungstabelle 2 (Rabatt_DMN.dmn):**
