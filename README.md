@@ -66,7 +66,7 @@ Dabei wird anhand des Attributs ```date``` der Zeitraum der Anmietung berechnet,
 **DMN Modell 3 (Angebotspreis_DMN_V2.dmn):**
 ![Angebotspreis](/image/Mietanfrage_bearbeiten.dmn.png) 
 
-Mithilfe des DMN Modells wird der Angebotspreis berechnet. Dieser wird am später ausgegeben und dann an den Kunden in Form eines Angebots übermittelt.
+Mithilfe des DMN Modells wird der Angebotspreis berechnet. Dieser wird später ausgegeben und dann an den Kunden in Form eines Angebots übermittelt.
 
 **Das DMN Modell 3 besteht aus vier verschiedenen Kernelementen:**
 - Input Data (Fahrzeugtyp, Mietdauer, Rabatt)
@@ -149,7 +149,7 @@ In der darauffolgenden Entscheidungstabelle 2 „Rabatt_DMN“ wird über die Hi
  ![Rabatt DMN](/image/Rabatt_DMN.jpg) 
  ![Rabatt DMN](/image/Rabatt_DMN_1.jpg) 
 
-Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. 
+Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht, wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. 
 Eine ausführliche Anleitung zu eingehenden Nachrichten ohne Java befindet sich auf folgenden Seiten:
 
 https://github.com/camunda/camunda-bpm-mail
@@ -158,7 +158,6 @@ https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
 Sollte sich der Kunde innerhalb einer Woche nicht melden löst das Timer Event aus
 Das Timerevent ist aktuell auf ```1000s``` eingestellt, was jedoch nur exemplarisch zum Testen des Prozesses gewählt wurde.
-
 Nähere Informationen zur Anwendung des Timer Events finden sich hier:
 
 https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
