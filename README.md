@@ -46,12 +46,12 @@ Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):
  
 Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
 
-Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn):
- ![Berechtigung_DMN](/image/Berechtigung_DMN_V2.dmn.png)
+DMN Modell 1 (Berechtigung_DMN_V2.dmn):
+ ![Berechtigung_DMN](/image/Berechtigung_DMN_V2.png)
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
 
- 
+Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn): 
 In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zur Anmietung dargestellt: Ist der Kunde 18 Jahre oder älter (>=18) und im Besitz eines Führerscheins (Führerschein = true) darf er einen Kleinwagen, Transporter oder Kombi ausleihen; besitzt der Kunde keinen Führerschein (Führerschein = false),  darf er kein Auto ausleihen; ist der Kunde jünger als 18 Jahre (Fahreralter <18) darf er auch kein Auto ausleihen; und ist der Kunde 25 Jahre oder älter (Fahreralter >=25) und im Besitz eines Führerscheins (Führerschein = true) darf er auch einen Sportwagen ausleihen.
 
 Entscheidungstabelle 2 (Rabatt_DMN.dmn):
@@ -59,9 +59,11 @@ Entscheidungstabelle 2 (Rabatt_DMN.dmn):
  ![Rabatt DMN](/image/Rabatt_DMN_1.jpg) 
  
 In der Entscheidungstabelle 2 werden die Einflussfaktoren für die Berechnung der Mietdauer deutlich (1-7 Tage: 4,99 €/Tag, 8-30 Tage: 9,99 €/Tag und mehr als 30 Tage: 19,99 €/Tag sowie ein Sonderrabatt in der Sommerzeit von Mai-September: 3,99 €/Tag, weiterhin gibt es einen Sonderrabatt von 12,99 €/Tag sollte die Temperatur größer gleich 20 Grad Celsius sein). 
-Dabei wird anhand des Attributs „date“ der Zeitraum der Anmietung berechnet, welcher für die Berechnung der Mietkosten benötigt wird. 
+Dabei wird anhand des Attributs ```date``` der Zeitraum der Anmietung berechnet, welcher für die Berechnung der Mietkosten benötigt wird. 
  
-DMN Modell 3 (Angebotspreis_DMN_V2.dmn)
+DMN Modell 3 (Angebotspreis_DMN_V2.dmn):
+ ![Angebotspreis](/image/Mietanfrage_bearbeiten.dmn.png) 
+
 Mithilfe des DMN Modells wird der Angebotspreis berechnet.Dieser wird am später ausgegeben und dann an den Kunden in Form eines Angebots übermittelt.
 
 Das DMN Modell 3 besteht aus vier verschiedenen Kernelementen:
@@ -74,16 +76,16 @@ Hinzu kommt noch eine Literal Expression (Ausgabepreis).
 
 
 Entscheidungstabelle 3.1 Fahrzeugtyp Auswahl:
- 
+ ![Fahrzeugtyp_Auswahl](/image/Fahrzeugtyp_Auswahl.png) 
 Die Entscheidungstabelle 3.1 listet die verschiedenen Fahrzeugtypen auf wobei dort die entsprechenden Tagespreise hinterlegt sind (Kleinwagen: 60,- €/Tag, Kombi: 80,- €/Tag, Transporter: 120,- €/Tag, Sportwagen: 180,- €/Tag) 
 
  
 Entscheidungstabelle 3.2 Mietpreis berechnen:
- 
+ ![Mietpreis_berechnen](/image/Mietpreis_berechnen.png) 
 In der Entscheidungstabelle 3.2 wird der Mietpreis durch Addition der Mietdauer und der Kosten pro Tag sowie der Subtraktion des zustehenden Rabatts errechnet.
 
 Literal Expression 3.3 Ausgabepreis:
- 
+  ![Ausgabepreis](/image/Ausgabepreis.jpg) 
 Die Literal Expression 3.3 ist notwendig um mehrere Zwischenergebnisse abrufen zu können. Aus diesem Grunde werden sowohl der Output „KostenProTag“ und „Endpreis“ an die Variable „Ausgabepreis“ übergeben, was ein Array ist.
 
 
@@ -102,7 +104,10 @@ Die Formularfelder sind Fahrzeugtyp, Mietdauer, Abholdatum, Mailadresse, Name, A
 Die Wahl der Datentypen verhindert zum einen Falscheingaben bzgl. der Datenformate und ist zum anderen nötig für weitere anwendung in den Entscheidungstabellen.
 
 Die DMN Tabelle „Fahrzeugtyp Auswahl“ evaluiert die Berechtigung ob der potentielle Kunde berechtigt ist, ein Fahrzeug anzumieten. Hierbei wurde die Hit Policy ```Unique``` gewählt. Dabei wird eine Inputkombination von genau einer Regel abgedeckt. 
-Bild
+
+Entscheidungstabelle 3.1 Fahrzeugtyp Auswahl:
+ ![Fahrzeugtyp_Auswahl](/image/Fahrzeugtyp_Auswahl.png) 
+
 Für das Versenden der Nachricht per Service Task „Mietabsage versenden“ wird der Connector ```mail-send``` verwendet, über die eine E-Mail versendet wird. Die Service Task könnte auch als Send Task modelliert werden, wir wollten nur die verschiedenen Möglichkeiten austesten und haben uns in diesem Fall für eine Service Task entschieden. Von der Implementierung gibt es jedenfalls keinen Unterschied bei der Verwendung des Connectors ```mail-send```. Die Mail wird direkt an die Emailadresse gesendet, die zu Beginn des Prozesses im Formularfeld „Mailadresse“ eingegeben wurde.
 
 Ausführliche Tutorials, wie der Mail Versand und Empfang ohne Java umgesetzt werden kann, finden sich unter:
@@ -138,6 +143,10 @@ connector.setVariable("temperatur",tempMsg);
 
 In der darauffolgenden Entscheidungstabelle „Rabatt_DMN“ wird über die Hit Policy ```Collect Sum``` genutzt, die die Ausgabewerte der zutreffenden Regeln zusammenrechnet, woraus sich der Rabatt ergibt.
 
+Entscheidungstabelle 2 (Rabatt_DMN.dmn):
+ ![Rabatt DMN](/image/Rabatt_DMN.jpg) 
+ ![Rabatt DMN](/image/Rabatt_DMN_1.jpg) 
+
 Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. 
 Eine ausführliche Anleitung zu eingehenden Nachrichten ohne Java befindet sich auf folgenden Seiten:
 
@@ -153,6 +162,10 @@ Nähere Informationen zur Anwendung des Timer Events finden sich hier:
 https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 
 Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
+
+Literal Expression 3.3 Ausgabepreis:
+  ![Ausgabepreis](/image/Ausgabepreis.jpg) 
+
 Mit Hilfe einer Literal Expression wird ein Array mit dem Variablennamen ```Ausgabepreis``` angelegt. In diesem befinden sich sowohl die ```KostenProTag``` sowie der ```Endpreis```. Diese können bei Bedarf über den Execution Listener und ein Javascript abgerufen werden, siehe folgender Codeblock.
 
 ```
