@@ -37,14 +37,17 @@ Diese Daten beinhalten:
  
 ## 1.	Abgrenzung und Beschreibung der Prozesse und Entscheidungen
 Hauptprozess (Hauptprozess_Autovermietung_BPMN_V2):
+![Hauptprozess Autovermietung](/image/Hauptprozess_Autovermietung_BPMN_V2.png)
  
 Der Hauptprozess beginnt mit einer Kundenanfrage zur Anmietung eins Wagens. Zuerst werden die Daten durch den Bearbeiter eingegeben und anhand der Mietrichtlinien überprüft. Nach der Prüfung wird je nach Output der DMN, durch ein Exklusives Gateway die Bedigungen geprüft, ob der potentielle Mieter überhaupt berechtigt ist, ein Wagen anzumieten (Überprüfung des Alters, Führerscheinbesitz, Fahrzeugtyp). Sollte dies nicht der Fall sein, wird eine Mietabsage versendet und der Prozess wird beendet. Sollte eine Anmietung möglich sein, wird im nächsten Schritt über eine paralleles Gateway in einem Teilprozess der mögliche Rabatt geprüft, danach der Angebotspreis ermittelt (dabei wird der Fahrzeugtyp, der Preistabelle der Mietfahrzeuge und der Mietdauer der Mietpreis berechnet) und das erstellte Angebot abschließend durch einen Mitarbeiter geprüft sowie die Verfügbarkeit des buchenden Wagens geprüft und das Auto reserviert- Sollte das Auto nicht verfügbar sein wird der Kunde informiert und der Prozess beendet. Nachdem diese Prozesse parallel abgelaufen sind, werden diese wieder zusammengeführt und falls möglich (Auto verfügbar) das Angebot an den Kunden versendet. Der potentielle Kunde prüft jetzt seinerseits das Angebot und kann das Angebot annehmen und eine Auftragsbestätigung senden oder dieses ablehnen und eine Absage senden. Über ein eventbasiertes Gateway wird der Prozess entsprechend der Vorentscheidungen beendet: Angebot angenommen -> das Fahrzeug wird vermietet, Angebot abgelehnt -> das Fahrzeug wird nicht vermietet oder der Kunde antwortet nicht innerhalb einer Woche -> die Angebotsdauer ist abgelaufen und es findet auch keine Vermietung statt.
 
 Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):
+ ![Rabatt Subprozess](/image/Rabatt_Subprozess_BPMN_V2.bpmn.png)
  
-Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabattabgabe.dmn)).
+Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
 
-Entscheidungstabelle 1 (Berechtigung DMN_V2.dmn):
+Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn):
+ ![Berechtigung_DMN](/image/Berechtigung DMN_V2.dmn.png)
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
 
@@ -52,7 +55,8 @@ Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des po
 In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zur Anmietung dargestellt: Ist der Kunde 18 Jahre oder älter (>=18) und im Besitz eines Führerscheins (Führerschein = true) darf er einen Kleinwagen, Transporter oder Kombi ausleihen; besitzt der Kunde keinen Führerschein (Führerschein = false),  darf er kein Auto ausleihen; ist der Kunde jünger als 18 Jahre (Fahreralter <18) darf er auch kein Auto ausleihen; und ist der Kunde 25 Jahre oder älter (Fahreralter >=25) und im Besitz eines Führerscheins (Führerschein = true) darf er auch einen Sportwagen ausleihen.
 
 Entscheidungstabelle 2 (Rabatt_DMN.dmn):
- 
+ ![Rabatt DMN](/image/Rabatt_DMN.jpg) 
+ ![Rabatt DMN](/image/Rabatt_DMN_1.jpg) 
  
 In der Entscheidungstabelle 2 werden die Einflussfaktoren für die Berechnung der Mietdauer deutlich (1-7 Tage: 4,99 €/Tag, 8-30 Tage: 9,99 €/Tag und mehr als 30 Tage: 19,99 €/Tag sowie ein Sonderrabatt in der Sommerzeit von Mai-September: 3,99 €/Tag, weiterhin gibt es einen Sonderrabatt von 12,99 €/Tag sollte die Temperatur größer gleich 20 Grad Celsius sein). 
 Dabei wird anhand des Attributs „date“ der Zeitraum der Anmietung berechnet, welcher für die Berechnung der Mietkosten benötigt wird. 
