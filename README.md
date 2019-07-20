@@ -97,24 +97,24 @@ Die Formularfelder sind Fahrzeugtyp, Mietdauer, Abholdatum, Mailadresse, Name, A
 
 Die Wahl der Datentypen verhindert zum einen Falscheingaben bzgl. der Datenformate und ist zum anderen nötig für weitere anwendung in den Entscheidungstabellen.
 
-Die DMN Tabelle „Fahrzeugtyp Auswahl“ evaluiert die Berechtigung ob der potentielle Kunde berechtigt ist, ein Fahrzeug anzumieten. Hierbei wurde die Hit Policy '''Unique''' gewählt. Dabei wird eine Inputkombination von genau einer Regel abgedeckt. 
+Die DMN Tabelle „Fahrzeugtyp Auswahl“ evaluiert die Berechtigung ob der potentielle Kunde berechtigt ist, ein Fahrzeug anzumieten. Hierbei wurde die Hit Policy ```Unique``` gewählt. Dabei wird eine Inputkombination von genau einer Regel abgedeckt. 
 Bild
-Für das Versenden der Nachricht per Service Task „Mietabsage versenden“ wird der Connector '''mail-send''' verwendet, über die eine E-Mail versendet wird. Die Service Task könnte auch als Send Task modelliert werden, wir wollten nur die verschiedenen Möglichkeiten austesten und haben uns in diesem Fall für eine Service Task entschieden. Von der Implementierung gibt es jedenfalls keinen Unterschied bei der Verwendung des Connectors '''mail-send'''. Die Mail wird direkt an die Emailadresse gesendet, die zu Beginn des Prozesses im Formularfeld „Mailadresse“ eingegeben wurde.
+Für das Versenden der Nachricht per Service Task „Mietabsage versenden“ wird der Connector ```mail-send``` verwendet, über die eine E-Mail versendet wird. Die Service Task könnte auch als Send Task modelliert werden, wir wollten nur die verschiedenen Möglichkeiten austesten und haben uns in diesem Fall für eine Service Task entschieden. Von der Implementierung gibt es jedenfalls keinen Unterschied bei der Verwendung des Connectors ```mail-send```. Die Mail wird direkt an die Emailadresse gesendet, die zu Beginn des Prozesses im Formularfeld „Mailadresse“ eingegeben wurde.
 
 Ausführliche Tutorials, wie der Mail Versand und Empfang ohne Java umgesetzt werden kann, finden sich unter:
 https://github.com/camunda/camunda-bpm-mail
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
-Das Error Event ist an der Script Task „Auto reservieren“ angeheftet. Ist das Fahrzeug verfügbar wird durch die Variable „Fahrzeugverfügbarkeit“ ein '''true'''' übergeben und der Prozess läuft normal weiter. Wird ein '''false''' übergeben, löst das Error Event aus und der Kunde wird per Email informiert und der Prozess wird über ein Terminate Event beendet. Das Terminate Event ist notwendig damit alle Prozesse beendet werden, ansonsten wäre durch das parallele Gateway der andere Pfad noch aktiv und der Prozess würde nicht beenden. Der dazugehörige Javascript Code der Script Task „Auto reservieren“ ist in der folgenden Abbildung zu sehen.
+Das Error Event ist an der Script Task „Auto reservieren“ angeheftet. Ist das Fahrzeug verfügbar wird durch die Variable „Fahrzeugverfügbarkeit“ ein ```true``` übergeben und der Prozess läuft normal weiter. Wird ein ```false``` übergeben, löst das Error Event aus und der Kunde wird per Email informiert und der Prozess wird über ein Terminate Event beendet. Das Terminate Event ist notwendig damit alle Prozesse beendet werden, ansonsten wäre durch das parallele Gateway der andere Pfad noch aktiv und der Prozess würde nicht beenden. Der dazugehörige Javascript Code der Script Task „Auto reservieren“ ist in der folgenden Abbildung zu sehen.
 
- '''
+```
  var fahrzeugv = execution.getVariable("Fahrzeugverfuegbarkeit");
 if ( fahrzeugv == true ) {
     execution.setVariable("FahrzeugReservierung", true);
 } else if ( fahrzeugv == false) {
   throw new org.camunda.bpm.engine.delegate.BpmnError("FahrzeugError");
 }
-'''
+```
 
 Eine ausführliche Erklärung, wie das Error Event mit JavaScript verwendet wird, ist auf folgender Webseite nachzulesen:
 https://medium.com/@stephenrussett/throwing-bpmn-errors-with-javascript-in-camunda-c678f4b7d9ff
