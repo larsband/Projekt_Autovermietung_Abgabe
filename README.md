@@ -75,17 +75,17 @@ Literal Expression 3.3 Ausgabepreis:
 Die Literal Expression 3.3 ist notwendig um mehrere Zwischenergebnisse abrufen zu können. Aus diesem Grunde werden sowohl der Output „KostenProTag“ und „Endpreis“ an die Variable „Ausgabepreis“ übergeben, was ein Array ist.
 
 
-2.	Erläuterung fachlicher und technischer Modellierungsentscheidungen
+## 2.	Erläuterung fachlicher und technischer Modellierungsentscheidungen
 Nachdem eine Mietanfrage eingegangen ist, wird die Aktivität „Kundendaten ausgeführt“ die als User Task modelliert. Der zuständige Mitarbeiter gibt in dieser User Task die Daten in ein Formular ein. Da wir bei der Implementierung auf den Einsatz von Java und Maven verzichtet haben, haben wir zur Erstellung der Formulare Generated Task Forms genutzt, die direkt im Camunda Modeler umgesetzt werden können. 
 
  
 Die Formularfelder sind Fahrzeugtyp, Mietdauer, Abholdatum, Mailadresse, Name, Alter und Führerschein. 
 
-•	Für das Formularfeld Fahrzeugtyp wurde der Datentyp als „enum“ gewählt und die Fahrzeugtypen aufgelistet. Durch die Auswahl der verschiedenen Fahrzeugtypen wird verhindert, dass falsche Eingaben getätigt werden.
-•	Für die Mietdauer und das Alter wird der Datentyp „long“ verwendet, wodurch sichergestellt wird, dass nur Zahleneingaben möglich sind. 
-•	Das Formularfeld Führerschein hat den Datentyp „boolean“, dieser nur zwei Werte annehmen kann entweder Wahr oder falsch.
-•	Das Abholdatum hat den Datentyp „date“, womit nur Datumangaben möglich sind.
-•	Die Formularfelder Name und Mailadresse haben den Datentyp String.
+-	Für das Formularfeld Fahrzeugtyp wurde der Datentyp als „enum“ gewählt und die Fahrzeugtypen aufgelistet. Durch die Auswahl der verschiedenen Fahrzeugtypen wird verhindert, dass falsche Eingaben getätigt werden.
+-	Für die Mietdauer und das Alter wird der Datentyp „long“ verwendet, wodurch sichergestellt wird, dass nur Zahleneingaben möglich sind. 
+-	Das Formularfeld Führerschein hat den Datentyp „boolean“, dieser nur zwei Werte annehmen kann entweder Wahr oder falsch.
+-	Das Abholdatum hat den Datentyp „date“, womit nur Datumangaben möglich sind.
+-	Die Formularfelder Name und Mailadresse haben den Datentyp String.
 
 Die Wahl der Datentypen verhindert zum einen Falscheingaben bzgl. der Datenformate und ist zum anderen nötig für weitere anwendung in den Entscheidungstabellen.
 
@@ -123,12 +123,7 @@ https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
 Mit Hilfe einer Literal Expression wird ein Array mit dem Variablennamen „Ausgabepreis“ angelegt. In diesem befinden sich sowohl die „KostenProTag“ sowie der „Endpreis“. Diese können bei Bedarf über den Execution Listener und ein Javascript abgerufen werden, siehe folgende Abbildung.
  
-
-
-
-
-
-3.	Reflexion von Schwachstellen und Optionen für Verbesserungen
+## 3.	Reflexion von Schwachstellen und Optionen für Verbesserungen
 
 Es wäre sicherlich möglich gewesen, das Fachliche Modell von Beginn an wesentlich komplexer zu gestalten. Gleichzeitig war es unser vorrangiges Ziel ein funktional vollständiges implementiertes Modell zu präsentieren.
 So haben wir uns entschieden, das erste Modell möglichst einfach zu gestalten und sich nach und nach mit den einzelnen Elementen und Funktionen der Implementierung vertraut zu machen.
