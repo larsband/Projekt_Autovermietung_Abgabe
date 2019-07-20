@@ -38,13 +38,13 @@ Diese Daten beinhalten:
 **Hauptprozess (Hauptprozess_Autovermietung_BPMN_V2):**
 ![Hauptprozess Autovermietung](/image/Hauptprozess_Autovermietung_BPMN_V2.png)
  
-Der Hauptprozess beginnt mit einer Kundenanfrage zur Anmietung eins Wagens. Zuerst werden die Daten durch den Bearbeiter eingegeben und anhand der Mietrichtlinien überprüft. Nach der Prüfung wird je nach Output der DMN, durch ein Exklusives Gateway die Bedigungen geprüft, ob der potentielle Mieter überhaupt berechtigt ist, ein Wagen anzumieten (Überprüfung des Alters, Führerscheinbesitz, Fahrzeugtyp). Sollte dies nicht der Fall sein, wird eine Mietabsage versendet und der Prozess wird beendet. Sollte eine Anmietung möglich sein, wird im nächsten Schritt über eine paralleles Gateway in einem Teilprozess der mögliche Rabatt geprüft, danach der Angebotspreis ermittelt (dabei wird der Fahrzeugtyp, der Preistabelle der Mietfahrzeuge und der Mietdauer der Mietpreis berechnet) und das erstellte Angebot abschließend durch einen Mitarbeiter geprüft sowie die Verfügbarkeit des buchenden Wagens geprüft und das Auto reserviert- Sollte das Auto nicht verfügbar sein wird der Kunde informiert und der Prozess beendet. Nachdem diese Prozesse parallel abgelaufen sind, werden diese wieder zusammengeführt und falls möglich (Auto verfügbar) das Angebot an den Kunden versendet. Der potentielle Kunde prüft jetzt seinerseits das Angebot und kann das Angebot annehmen und eine Auftragsbestätigung senden oder dieses ablehnen und eine Absage senden. Über ein eventbasiertes Gateway wird der Prozess entsprechend der Vorentscheidungen beendet: Angebot angenommen -> das Fahrzeug wird vermietet, Angebot abgelehnt -> das Fahrzeug wird nicht vermietet oder der Kunde antwortet nicht innerhalb einer Woche -> die Angebotsdauer ist abgelaufen und es findet auch keine Vermietung statt.
+Der Hauptprozess beginnt mit einer Kundenanfrage zur Anmietung eins Wagens. Zuerst werden die Daten durch den Bearbeiter eingegeben und anhand der Mietrichtlinien überprüft. Je nach Output der DMN werden die Bedingungen anhand eines Exklusiven Gateways geprüft (ist der potentielle Mieter überhaupt berechtigt ist ein Auto zu mieten: Überprüfung des Alters, Führerscheinbesitz, Fahrzeugtyp). Sollte dies nicht der Fall sein, wird eine Mietabsage versendet und der Prozess wird beendet. Sollte eine Anmietung möglich sein, wird im nächsten Schritt über eine paralleles Gateway in einem Teilprozess der mögliche Rabatt geprüft und danach der Angebotspreis ermittelt. Dabei wird der Fahrzeugtyp der Preistabelle der Mietfahrzeuge entnommen und anhand der Mietdauer der Mietpreis berechnet. Abschließend wird das erstellte Angebot durch einen Mitarbeiter geprüft sowie die Verfügbarkeit des zu buchenden Wagens abgeglichen und das Auto reserviert. Sollte das Auto nicht verfügbar sein, wird der Kunde informiert und der Prozess beendet. Nachdem diese Prozesse parallel abgelaufen sind, werden sie wieder zusammengeführt und - falls möglich (Auto verfügbar) - das Angebot an den Kunden versendet. Der potentielle Kunde prüft jetzt seinerseits das Angebot und kann dies annehmen und eine Auftragsbestätigung senden oder ablehnen und eine Absage senden. Über ein exklusives Gateway wird der Prozess entsprechend der Vorentscheidungen beendet: Angebot angenommen -> das Fahrzeug wird vermietet, Angebot abgelehnt -> das Fahrzeug wird nicht vermietet oder der Kunde antwortet nicht innerhalb einer Woche -> die Angebotsdauer ist abgelaufen und es findet auch keine Vermietung statt.
 
 **Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):**
 
 ![Rabatt Subprozess](/image/Rabatt_Subprozess_BPMN_V2.bpmn.png)
  
-Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
+Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung ist unserem Fall PLZ: 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabattabgabe.dmn)).
 
 **DMN Modell 1 (Berechtigung_DMN_V2.dmn):**
 
@@ -61,7 +61,7 @@ In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zu
  ![Rabatt DMN](/image/Rabatt_DMN.jpg) 
  ![Rabatt DMN](/image/Rabatt_DMN_1.jpg) 
  
-In der Entscheidungstabelle 2 werden die Einflussfaktoren für die Berechnung der Mietdauer deutlich (1-7 Tage: 4,99 €/Tag, 8-30 Tage: 9,99 €/Tag und mehr als 30 Tage: 19,99 €/Tag sowie ein Sonderrabatt in der Sommerzeit von Mai-September: 3,99 €/Tag, weiterhin gibt es einen Sonderrabatt von 12,99 €/Tag sollte die Temperatur größer gleich 20 Grad Celsius sein). 
+In der Entscheidungstabelle 2 werden die Einflussfaktoren für die Berechnung der Mietdauer deutlich (1-7 Tage: 4,99 €/Tag, 8-30 Tage: 9,99 €/Tag und mehr als 30 Tage: 19,99 €/Tag sowie ein Sonderrabatt in der Sommerzeit von Mai-September: 3,99 €/Tag, weiterhin gibt es einen Sonderrabatt von 12,99 €/Tag sollte die Temperatur größer/gleich 20 Grad Celsius sein). 
 Dabei wird anhand des Attributs ```date``` der Zeitraum der Anmietung berechnet, welcher für die Berechnung der Mietkosten benötigt wird. 
 
 **DMN Modell 3 (Angebotspreis_DMN_V2.dmn):**
@@ -87,9 +87,9 @@ Die Entscheidungstabelle 3.1 listet die verschiedenen Fahrzeugtypen auf wobei do
 ![Mietpreis_berechnen](/image/Mietpreis_berechnen.png)
 In der Entscheidungstabelle 3.2 wird der Endpreis durch Multiplikation der Mietdauer und der Kosten pro Tag sowie der Subtraktion des zustehenden Rabatts errechnet.
 
-**Literal Expression 3.3 Ausgabepreis:**
+**Entscheidungstabelle (Literal Expression) 3.3 Ausgabepreis:**
 ![Ausgabepreis](/image/Ausgabepreis.jpg) 
-Die Literal Expression 3.3 ist notwendig um mehrere Zwischenergebnisse abrufen zu können. Aus diesem Grunde werden sowohl der Output ```KostenProTag``` und ```Endpreis``` an die Variable ```Ausgabepreis``` übergeben, was ein Array ist.
+Die Entscheidungstabelle (Literal Expression) 3.3 ist notwendig um mehrere Zwischenergebnisse abrufen zu können. Aus diesem Grunde werden sowohl der Output ```KostenProTag``` und ```Endpreis``` an die Variable ```Ausgabepreis``` als Array übergeben.
 
 
 ## 2.	Erläuterung fachlicher und technischer Modellierungsentscheidungen
@@ -104,7 +104,7 @@ Die Formularfelder sind Fahrzeugtyp, Mietdauer, Abholdatum, Mailadresse, Name, A
 -	Das Abholdatum hat den Datentyp ```date```, womit nur Datumangaben möglich sind.
 -	Die Formularfelder Name und Mailadresse haben den Datentyp ```String```.
 
-Die Wahl der Datentypen verhindert zum einen Falscheingaben bzgl. der Datenformate und ist zum anderen nötig für weitere anwendung in den Entscheidungstabellen.
+Die Wahl der Datentypen verhindert zum einen Falscheingaben bzgl. der Datenformate und ist zum anderen notwendig für die weitere Anwendung in den Entscheidungstabellen.
 
 Die DMN Tabelle „Fahrzeugtyp Auswahl“ evaluiert die Berechtigung ob der potentielle Kunde berechtigt ist, ein Fahrzeug anzumieten. Hierbei wurde die Hit Policy ```Unique``` gewählt. Dabei wird eine Inputkombination von genau einer Regel abgedeckt. 
 
@@ -137,7 +137,7 @@ Eine ausführliche Erklärung, wie das Error Event mit JavaScript verwendet wird
 https://medium.com/@stephenrussett/throwing-bpmn-errors-with-javascript-in-camunda-c678f4b7d9ff
 
 
-In der Call Activity „Rabatt ermitteln“ wird das BPMN Modell „Rabatt_Supprozess_BPMN_V2.bpmn“ aufgerufen, in diesem der Rabatt berechnet wird. In der Service Task „Temperatur ermitteln“ wird die externe API ```http://api.openweathermap.org/data/2.5/weather?zip=12309,de&appid=3af927f89da1cf2ac68bd304b55c4cf0``` über den ```http-connector``` aufgerufen. Dabei werden aktuellen Wetterdaten für den Postleitzahlbereich 12309 Berlin abgerufen. Im Anschluss wird per JavaScript die Temperatur aus den Informationen herausgefiltert sowie in Grad Celsius umgerechnet und im Anschluss in der Variable ```temperatur``` abgespeichert. 
+In der Call Activity „Rabatt ermitteln“ wird das BPMN Modell „Rabatt_Supprozess_BPMN_V2.bpmn“ aufgerufen, in welchem der Rabatt berechnet wird. In der Service Task „Temperatur ermitteln“ wird die externe API ```http://api.openweathermap.org/data/2.5/weather?zip=12309,de&appid=3af927f89da1cf2ac68bd304b55c4cf0``` über den ```http-connector``` aufgerufen. Dabei werden aktuellen Wetterdaten für den Postleitzahlbereich 12309 Berlin abgerufen. Im Anschluss wird per JavaScript die Temperatur aus den Informationen herausgefiltert sowie in Grad Celsius umgerechnet und abschließend in der Variable ```temperatur``` abgespeichert. 
 
 ```
 var responseObj = connector.getVariable("response");
@@ -160,7 +160,7 @@ https://github.com/camunda/camunda-bpm-mail
 
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
-Sollte sich der Kunde innerhalb einer Woche nicht melden löst das Timer Event aus
+Sollte sich der Kunde innerhalb einer Woche nicht melden löst das Timer Event aus.
 Das Timerevent ist aktuell auf ```1000s``` eingestellt, was jedoch nur exemplarisch zum Testen des Prozesses gewählt wurde.
 Nähere Informationen zur Anwendung des Timer Events finden sich hier:
 
@@ -168,7 +168,7 @@ https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 
 Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle 3.2 „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
 
-**Literal Expression 3.3 Ausgabepreis:**
+**Entscheidungstabelle (Literal Expression) 3.3 Ausgabepreis:**
   ![Ausgabepreis](/image/Ausgabepreis.jpg) 
 
 Mit Hilfe einer Literal Expression wird ein Array mit dem Variablennamen ```Ausgabepreis``` angelegt. In diesem befinden sich sowohl die ```KostenProTag``` sowie der ```Endpreis```. Diese können bei Bedarf über den Execution Listener und ein Javascript abgerufen werden, siehe folgender Codeblock.
@@ -180,19 +180,17 @@ execution.setVariable("KostenProTag", Ausgabepreis[0]);
  
 ## 3.	Reflexion von Schwachstellen und Optionen für Verbesserungen
 
-Es wäre sicherlich möglich gewesen, das Fachliche Modell von Beginn an wesentlich komplexer zu gestalten. Gleichzeitig war es unser vorrangiges Ziel ein funktional vollständiges implementiertes Modell zu präsentieren.
-So haben wir uns entschieden, das erste Modell möglichst einfach zu gestalten und sich nach und nach mit den einzelnen Elementen und Funktionen der Implementierung vertraut zu machen.
+Es wäre sicherlich möglich gewesen, das fachliche Modell von Beginn an wesentlich komplexer zu gestalten. Aber es war unser vorrangiges Ziel ein funktional vollständig implementiertes Modell zu präsentieren.
+So haben wir uns dazu entschieden, das erste Modell möglichst einfach zu gestalten und sich nach und nach mit den einzelnen Elementen und Funktionen der Implementierung vertraut zu machen.
 Die Entwicklung des Modells der Autovermietung war ein stetiger Lernprozess, gerade durch die fehlende Erfahrung der Implementierung von Prozessen mit Camunda.
-Nach und nach haben wir während des Projektes durch viel Recherche neue Elemente und einzelnen technische Möglichkeiten von Camunda kennengelernt. Das Modell ist stetig mit unseren Erfahrungen mitgewachsen, woraus die Version 2 entstanden ist. Mit der Anwendung neuer Elemente, wie die Implementierung von Error Events, konnten komplexere Strukturen modelliert werden. Zusätzlich sind Elemente wie die Service Task hinzugekommen, bei der auf eine externe API (Abruf der Temperatur) zugegriffen wird. Fachlich ist dieser Teil nicht wirklich relevant für eine Autovermietung. Aber gerade da wir die Freiheit eines selbstgewählten Modells hatten, konnten wir uns mit den verschiedenen technischen Möglichkeiten (Connectoren, Zugriff auf externe API’s) von Camunda vertraut machen. 
+Nach und nach haben wir während des Projektes durch viel Recherche neue Elemente und einzelnen technische Möglichkeiten von Camunda kennengelernt. Das Modell ist stetig mit unseren Erfahrungen gewachsen, woraus die Version 2 entstanden ist. Mit der Anwendung neuer Elemente, wie der  Implementierung von Error Events, konnten komplexere Strukturen modelliert werden. Zusätzlich sind Elemente wie die Service Task hinzugekommen, bei der auf eine externe API (Abruf der Temperatur) zugegriffen wird. Fachlich ist dieser Teil nicht wirklich relevant für eine Autovermietung. Aber gerade da wir die Freiheit eines selbstgewählten Modells hatten, konnten wir uns mit den verschiedenen technischen Möglichkeiten (Connectoren, Zugriff auf externe API’s) von Camunda vertraut machen. 
 
-Das aktuelle Modell hat noch einige Schwachstellen, z.B. werden aktuell die Prozesseingaben nicht automatisch auf Gültigkeit überprüft, so ist es möglich das sowohl der Mietzeitraum als auch das Abholdatum in der Vergangenheit sein können. In einer Zukünftigen Version sollte dies nicht mehr möglich sein und bereits beim Absenden des Formulars eine Fehlermeldung erscheinen.
+Das aktuelle Modell hat noch einige Schwachstellen, z. B. werden aktuell die Prozesseingaben nicht automatisch auf Gültigkeit überprüft, so ist es möglich das sowohl der Mietzeitraum als auch das Abholdatum in der Vergangenheit sein können. In einer zukünftigen Version sollte dies nicht mehr möglich sein und bereits beim Absenden des Formulars eine Fehlermeldung erscheinen.
 
-Unsere gesamte Implementierung fand ohne die Verwendung von Java und Maven statt, wodurch die Möglichkeiten der Implementierung allerdings eingeschränkt wird.
-So war es nicht möglich, eigene Formulare (Embedded Task Forms, External Task Forms) einzubinden. Erstellte Formulare ließen sich nicht deployen ohne die Verwendung von Maven. So gibt es zwar eine Anleitung online, die wir leider in der Praxis nicht bei uns nicht umsetzen konnten:
-
+Unsere gesamte Implementierung fand ohne die Verwendung von Java und Maven statt, wodurch die Möglichkeiten eingeschränkt sind.
+So war es nicht möglich, eigene Formulare (Embedded Task Forms, External Task Forms) einzubinden. Erstellte Formulare ließen sich ohne die Verwendung von Maven nicht deployen. Es gibt es zwar eine Anleitung online, die wir leider in der Praxis bei uns nicht umsetzen konnten:
 https://medium.com/@stephenrussett/deploying-embedded-forms-with-camunda-rest-api-84cf8010f8c1
 
-
-In einer zukünftigen Version unseres Modells würde wir von Beginn an Java verwenden, wodurch mehr technische Möglichkeiten zur Verfügung stehen komplexere Prozessmodelle in Camunda zu implementieren.
-So wäre eine Möglichkeit das Formular auf einer externen Webseite für den Kunden bereitzustellen. Auf dieser Webseite könnte der Kunde seine Mietanfrage direkt tätigen und die Gültigkeit der Daten könnte direkt geprüft werden. Der Vorteil wäre nach einer Mietanfrage müssten die Daten nicht wiederholt durch den Mitarbeiter in ein Formular eingeben werden, wodurch auch die Integrität der Daten sichergestellt wird.
-Insgesamt sind wir mit unserem Projekt sehr zufrieden. Alles, was wir uns zu Beginn des Projektes vorgenommen haben, konnte wir in der Praxis umsetzen und haben vieles Neues dazu gelernt. In der Zukunft werden wir sicherlich mit Camunda weiter experimentieren, was technisch möglich ist.
+In einer zukünftigen Version unseres Modells würde wir von Beginn an Java verwenden, wodurch mehr technische Möglichkeiten zur Verfügung stehen um komplexere Prozessmodelle in Camunda zu implementieren.
+So wäre eine Möglichkeit das Formular auf einer externen Webseite für den Kunden bereitzustellen. Auf dieser Webseite könnte der Kunde seine Mietanfrage direkt tätigen und die Gültigkeit der Daten könnte sofort geprüft werden. Der Vorteil wäre, dass nach einer Mietanfrage die Daten nicht wiederholt durch den Mitarbeiter in ein Formular eingeben werden müssten, wodurch auch die Integrität der Daten sichergestellt wird.
+Insgesamt sind wir mit unserem Projekt sehr zufrieden. Alles, was wir uns zu Beginn des Projektes vorgenommen haben, konnte wir in der Praxis umsetzen und haben viel Neues dazu gelernt. In der Zukunft werden wir sicher weiter mit Camunda experimentieren, um zu sehen was technisch alles möglich ist.
