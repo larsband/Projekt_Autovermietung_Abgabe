@@ -41,32 +41,32 @@ Hauptprozess (Hauptprozess_Autovermietung_BPMN_V2):
  
 Der Hauptprozess beginnt mit einer Kundenanfrage zur Anmietung eins Wagens. Zuerst werden die Daten durch den Bearbeiter eingegeben und anhand der Mietrichtlinien überprüft. Nach der Prüfung wird je nach Output der DMN, durch ein Exklusives Gateway die Bedigungen geprüft, ob der potentielle Mieter überhaupt berechtigt ist, ein Wagen anzumieten (Überprüfung des Alters, Führerscheinbesitz, Fahrzeugtyp). Sollte dies nicht der Fall sein, wird eine Mietabsage versendet und der Prozess wird beendet. Sollte eine Anmietung möglich sein, wird im nächsten Schritt über eine paralleles Gateway in einem Teilprozess der mögliche Rabatt geprüft, danach der Angebotspreis ermittelt (dabei wird der Fahrzeugtyp, der Preistabelle der Mietfahrzeuge und der Mietdauer der Mietpreis berechnet) und das erstellte Angebot abschließend durch einen Mitarbeiter geprüft sowie die Verfügbarkeit des buchenden Wagens geprüft und das Auto reserviert- Sollte das Auto nicht verfügbar sein wird der Kunde informiert und der Prozess beendet. Nachdem diese Prozesse parallel abgelaufen sind, werden diese wieder zusammengeführt und falls möglich (Auto verfügbar) das Angebot an den Kunden versendet. Der potentielle Kunde prüft jetzt seinerseits das Angebot und kann das Angebot annehmen und eine Auftragsbestätigung senden oder dieses ablehnen und eine Absage senden. Über ein eventbasiertes Gateway wird der Prozess entsprechend der Vorentscheidungen beendet: Angebot angenommen -> das Fahrzeug wird vermietet, Angebot abgelehnt -> das Fahrzeug wird nicht vermietet oder der Kunde antwortet nicht innerhalb einer Woche -> die Angebotsdauer ist abgelaufen und es findet auch keine Vermietung statt.
 
-Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):
+**Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):**
  ![Rabatt Subprozess](/image/Rabatt_Subprozess_BPMN_V2.bpmn.png)
  
 Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
 
-DMN Modell 1 (Berechtigung_DMN_V2.dmn):
+**DMN Modell 1 (Berechtigung_DMN_V2.dmn):**
  ![Berechtigung_DMN](/image/Berechtigung_DMN_V2.png)
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
 
-Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn): 
+**Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn):** 
 In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zur Anmietung dargestellt: Ist der Kunde 18 Jahre oder älter (>=18) und im Besitz eines Führerscheins (Führerschein = true) darf er einen Kleinwagen, Transporter oder Kombi ausleihen; besitzt der Kunde keinen Führerschein (Führerschein = false),  darf er kein Auto ausleihen; ist der Kunde jünger als 18 Jahre (Fahreralter <18) darf er auch kein Auto ausleihen; und ist der Kunde 25 Jahre oder älter (Fahreralter >=25) und im Besitz eines Führerscheins (Führerschein = true) darf er auch einen Sportwagen ausleihen.
 
-Entscheidungstabelle 2 (Rabatt_DMN.dmn):
+**Entscheidungstabelle 2 (Rabatt_DMN.dmn):**
  ![Rabatt DMN](/image/Rabatt_DMN.jpg) 
  ![Rabatt DMN](/image/Rabatt_DMN_1.jpg) 
  
 In der Entscheidungstabelle 2 werden die Einflussfaktoren für die Berechnung der Mietdauer deutlich (1-7 Tage: 4,99 €/Tag, 8-30 Tage: 9,99 €/Tag und mehr als 30 Tage: 19,99 €/Tag sowie ein Sonderrabatt in der Sommerzeit von Mai-September: 3,99 €/Tag, weiterhin gibt es einen Sonderrabatt von 12,99 €/Tag sollte die Temperatur größer gleich 20 Grad Celsius sein). 
 Dabei wird anhand des Attributs ```date``` der Zeitraum der Anmietung berechnet, welcher für die Berechnung der Mietkosten benötigt wird. 
  
-DMN Modell 3 (Angebotspreis_DMN_V2.dmn):
- ![Angebotspreis](/image/Mietanfrage_bearbeiten.dmn.png) 
+**DMN Modell 3 (Angebotspreis_DMN_V2.dmn):**
+![Angebotspreis](/image/Mietanfrage_bearbeiten.dmn.png) 
 
 Mithilfe des DMN Modells wird der Angebotspreis berechnet.Dieser wird am später ausgegeben und dann an den Kunden in Form eines Angebots übermittelt.
 
-Das DMN Modell 3 besteht aus vier verschiedenen Kernelementen:
+**Das DMN Modell 3 besteht aus vier verschiedenen Kernelementen:**
 - Input Data (Fahrzeugtyp, Mietdauer, Rabatt)
 - Business Knowledge Model (Mietpreisberechnung)
 - Knowledge Source (Preistabelle Mietfahrzeuge)
@@ -75,18 +75,18 @@ Das DMN Modell 3 besteht aus vier verschiedenen Kernelementen:
 Hinzu kommt noch eine Literal Expression (Ausgabepreis). 
 
 
-Entscheidungstabelle 3.1 Fahrzeugtyp Auswahl:
- ![Fahrzeugtyp_Auswahl](/image/Fahrzeugtyp_Auswahl.png) 
+**Entscheidungstabelle 3.1 Fahrzeugtyp Auswahl:**
+![Fahrzeugtyp_Auswahl](/image/Fahrzeugtyp_Auswahl.png) 
 Die Entscheidungstabelle 3.1 listet die verschiedenen Fahrzeugtypen auf wobei dort die entsprechenden Tagespreise hinterlegt sind (Kleinwagen: 60,- €/Tag, Kombi: 80,- €/Tag, Transporter: 120,- €/Tag, Sportwagen: 180,- €/Tag) 
 
  
-Entscheidungstabelle 3.2 Mietpreis berechnen:
- ![Mietpreis_berechnen](/image/Mietpreis_berechnen.png) 
+**Entscheidungstabelle 3.2 Mietpreis berechnen:**
+![Mietpreis_berechnen](/image/Mietpreis_berechnen.png) 
 In der Entscheidungstabelle 3.2 wird der Mietpreis durch Addition der Mietdauer und der Kosten pro Tag sowie der Subtraktion des zustehenden Rabatts errechnet.
 
-Literal Expression 3.3 Ausgabepreis:
-  ![Ausgabepreis](/image/Ausgabepreis.jpg) 
-Die Literal Expression 3.3 ist notwendig um mehrere Zwischenergebnisse abrufen zu können. Aus diesem Grunde werden sowohl der Output „KostenProTag“ und „Endpreis“ an die Variable „Ausgabepreis“ übergeben, was ein Array ist.
+**Literal Expression 3.3 Ausgabepreis:**
+![Ausgabepreis](/image/Ausgabepreis.jpg) 
+Die Literal Expression 3.3 ist notwendig um mehrere Zwischenergebnisse abrufen zu können. Aus diesem Grunde werden sowohl der Output ```KostenProTag``` und ```Endpreis``` an die Variable ```Ausgabepreis``` übergeben, was ein Array ist.
 
 
 ## 2.	Erläuterung fachlicher und technischer Modellierungsentscheidungen
@@ -105,7 +105,7 @@ Die Wahl der Datentypen verhindert zum einen Falscheingaben bzgl. der Datenforma
 
 Die DMN Tabelle „Fahrzeugtyp Auswahl“ evaluiert die Berechtigung ob der potentielle Kunde berechtigt ist, ein Fahrzeug anzumieten. Hierbei wurde die Hit Policy ```Unique``` gewählt. Dabei wird eine Inputkombination von genau einer Regel abgedeckt. 
 
-Entscheidungstabelle 3.1 Fahrzeugtyp Auswahl:
+**Entscheidungstabelle 3.1 Fahrzeugtyp Auswahl:**
  ![Fahrzeugtyp_Auswahl](/image/Fahrzeugtyp_Auswahl.png) 
 
 Für das Versenden der Nachricht per Service Task „Mietabsage versenden“ wird der Connector ```mail-send``` verwendet, über die eine E-Mail versendet wird. Die Service Task könnte auch als Send Task modelliert werden, wir wollten nur die verschiedenen Möglichkeiten austesten und haben uns in diesem Fall für eine Service Task entschieden. Von der Implementierung gibt es jedenfalls keinen Unterschied bei der Verwendung des Connectors ```mail-send```. Die Mail wird direkt an die Emailadresse gesendet, die zu Beginn des Prozesses im Formularfeld „Mailadresse“ eingegeben wurde.
@@ -141,9 +141,9 @@ var tempMsg = parseInt(Math.round(weatherMsg-273.15));
 connector.setVariable("temperatur",tempMsg);
 ```
 
-In der darauffolgenden Entscheidungstabelle „Rabatt_DMN“ wird über die Hit Policy ```Collect Sum``` genutzt, die die Ausgabewerte der zutreffenden Regeln zusammenrechnet, woraus sich der Rabatt ergibt.
+In der darauffolgenden Entscheidungstabelle 2 „Rabatt_DMN“ wird über die Hit Policy ```Collect Sum``` genutzt, die die Ausgabewerte der zutreffenden Regeln zusammenrechnet, woraus sich der Rabatt ergibt.
 
-Entscheidungstabelle 2 (Rabatt_DMN.dmn):
+**Entscheidungstabelle 2 (Rabatt_DMN.dmn):**
  ![Rabatt DMN](/image/Rabatt_DMN.jpg) 
  ![Rabatt DMN](/image/Rabatt_DMN_1.jpg) 
 
@@ -161,9 +161,9 @@ Nähere Informationen zur Anwendung des Timer Events finden sich hier:
 
 https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 
-Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
+Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle 3.2 „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
 
-Literal Expression 3.3 Ausgabepreis:
+**Literal Expression 3.3 Ausgabepreis:**
   ![Ausgabepreis](/image/Ausgabepreis.jpg) 
 
 Mit Hilfe einer Literal Expression wird ein Array mit dem Variablennamen ```Ausgabepreis``` angelegt. In diesem befinden sich sowohl die ```KostenProTag``` sowie der ```Endpreis```. Diese können bei Bedarf über den Execution Listener und ein Javascript abgerufen werden, siehe folgender Codeblock.
