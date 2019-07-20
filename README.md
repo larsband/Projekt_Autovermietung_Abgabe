@@ -47,7 +47,7 @@ Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):
 Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
 
 Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn):
- ![Berechtigung_DMN](/image/Berechtigung DMN_V2.dmn.png)
+ ![Berechtigung_DMN](/image/Berechtigung_DMN_V2.dmn.png)
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
 
