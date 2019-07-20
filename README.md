@@ -119,24 +119,35 @@ if ( fahrzeugv == true ) {
 Eine ausführliche Erklärung, wie das Error Event mit JavaScript verwendet wird, ist auf folgender Webseite nachzulesen:
 https://medium.com/@stephenrussett/throwing-bpmn-errors-with-javascript-in-camunda-c678f4b7d9ff
 
-In der Call Activity „Rabatt ermitteln“ wird das BPMN Modell „Rabatt_Supprozess_BPMN_V2.bpmn“ aufgerufen, in diesem der Rabatt berechnet wird. In der Service Task „Temperatur ermitteln“ wird die externe API „http://api.openweathermap.org/data/2.5/weather?zip=12309,de&appid=3af927f89da1cf2ac68bd304b55c4cf0“ über den „http-connector“ aufgerufen. Dabei werden aktuellen Wetterdaten für den Postleitzahlbereich 12309 Berlin abgerufen. Im Anschluss wird per JavaScript die Temperatur aus den Informationen herausgefiltert sowie in Grad Celsius umgerechnet und im Anschluss in der Variable „temperatur“ abgespeichert. 
+In der Call Activity „Rabatt ermitteln“ wird das BPMN Modell „Rabatt_Supprozess_BPMN_V2.bpmn“ aufgerufen, in diesem der Rabatt berechnet wird. In der Service Task „Temperatur ermitteln“ wird die externe API ```http://api.openweathermap.org/data/2.5/weather?zip=12309,de&appid=3af927f89da1cf2ac68bd304b55c4cf0``` über den ```http-connector``` aufgerufen. Dabei werden aktuellen Wetterdaten für den Postleitzahlbereich 12309 Berlin abgerufen. Im Anschluss wird per JavaScript die Temperatur aus den Informationen herausgefiltert sowie in Grad Celsius umgerechnet und im Anschluss in der Variable ```temperatur``` abgespeichert. 
 
- 
+```
+var responseObj = connector.getVariable("response");
+var weatherMsg =  S(responseObj).prop("main").prop("temp");
+//var weatherMsg = responseObj.main.temp;
+var tempMsg = parseInt(Math.round(weatherMsg-273.15));
+connector.setVariable("temperatur",tempMsg);
+```
 
-In der darauffolgenden Entscheidungstabelle „Rabatt_DMN“ wird über die Hit Policy „Collect Sum“ genutzt, die die Ausgabewerte der zutreffenden Regeln zusammenrechnet, woraus sich der Rabatt ergibt.
+In der darauffolgenden Entscheidungstabelle „Rabatt_DMN“ wird über die Hit Policy ```Collect Sum``` genutzt, die die Ausgabewerte der zutreffenden Regeln zusammenrechnet, woraus sich der Rabatt ergibt.
 
 Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. Eine ausführliche Anleitung zu eingehenden Nachrichten ohne Java befindet sich auf folgenden Seiten:
 https://github.com/camunda/camunda-bpm-mail
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
 Sollte sich der Kunde innerhalb einer Woche nicht melden löst das Timer Event aus
-Das Timerevent ist aktuell auf 1000s eingestellt, was jedoch nur exemplarisch zum Testen des Prozesses gewählt wurde.
+Das Timerevent ist aktuell auf ```1000s``` eingestellt, was jedoch nur exemplarisch zum Testen des Prozesses gewählt wurde.
 
 Nähere Informationen zur Anwendung des Timer Events finden sich hier:
 https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 
 Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
-Mit Hilfe einer Literal Expression wird ein Array mit dem Variablennamen „Ausgabepreis“ angelegt. In diesem befinden sich sowohl die „KostenProTag“ sowie der „Endpreis“. Diese können bei Bedarf über den Execution Listener und ein Javascript abgerufen werden, siehe folgende Abbildung.
+Mit Hilfe einer Literal Expression wird ein Array mit dem Variablennamen ```Ausgabepreis``` angelegt. In diesem befinden sich sowohl die ```KostenProTag``` sowie der ```Endpreis```. Diese können bei Bedarf über den Execution Listener und ein Javascript abgerufen werden, siehe folgender Codeblock.
+
+```
+execution.setVariable("Endpreis", Ausgabepreis[1]);
+execution.setVariable("KostenProTag", Ausgabepreis[0]);  
+```
  
 ## 3.	Reflexion von Schwachstellen und Optionen für Verbesserungen
 
