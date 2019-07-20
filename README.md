@@ -42,19 +42,16 @@ Hauptprozess (Hauptprozess_Autovermietung_BPMN_V2):
 Der Hauptprozess beginnt mit einer Kundenanfrage zur Anmietung eins Wagens. Zuerst werden die Daten durch den Bearbeiter eingegeben und anhand der Mietrichtlinien überprüft. Nach der Prüfung wird je nach Output der DMN, durch ein Exklusives Gateway die Bedigungen geprüft, ob der potentielle Mieter überhaupt berechtigt ist, ein Wagen anzumieten (Überprüfung des Alters, Führerscheinbesitz, Fahrzeugtyp). Sollte dies nicht der Fall sein, wird eine Mietabsage versendet und der Prozess wird beendet. Sollte eine Anmietung möglich sein, wird im nächsten Schritt über eine paralleles Gateway in einem Teilprozess der mögliche Rabatt geprüft, danach der Angebotspreis ermittelt (dabei wird der Fahrzeugtyp, der Preistabelle der Mietfahrzeuge und der Mietdauer der Mietpreis berechnet) und das erstellte Angebot abschließend durch einen Mitarbeiter geprüft sowie die Verfügbarkeit des buchenden Wagens geprüft und das Auto reserviert- Sollte das Auto nicht verfügbar sein wird der Kunde informiert und der Prozess beendet. Nachdem diese Prozesse parallel abgelaufen sind, werden diese wieder zusammengeführt und falls möglich (Auto verfügbar) das Angebot an den Kunden versendet. Der potentielle Kunde prüft jetzt seinerseits das Angebot und kann das Angebot annehmen und eine Auftragsbestätigung senden oder dieses ablehnen und eine Absage senden. Über ein eventbasiertes Gateway wird der Prozess entsprechend der Vorentscheidungen beendet: Angebot angenommen -> das Fahrzeug wird vermietet, Angebot abgelehnt -> das Fahrzeug wird nicht vermietet oder der Kunde antwortet nicht innerhalb einer Woche -> die Angebotsdauer ist abgelaufen und es findet auch keine Vermietung statt.
 
 **Teilprozess (Rabatt_Subprozess_BPMN_V2.bpmn):**
-
 ![Rabatt Subprozess](/image/Rabatt_Subprozess_BPMN_V2.bpmn.png)
  
 Bei dem Teilprozess wird die aktuelle Temperatur (Standort der Autovermietung geprüft, in unseren Fall 12309 Berlin) ermittelt, da unter anderem von dieser der Rabatt abhängt. Dann wird die Rabattstaffel für die Mietdauer berücksichtigt (siehe Entscheidungstabelle 2 (Rabatt_DMN.dmn)).
 
 **DMN Modell 1 (Berechtigung_DMN_V2.dmn):**
-
 ![Berechtigung_DMN](/image/Berechtigung_DMN_V2.png)
  
 Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des potentiellen Mieters geprüft. Dabei wird auf Grundlage der „Richtlinien Mietbedingungen“ der Besitz eines Führerscheins berücksichtig, welcher Fahrzeugtyp gebucht werden soll sowie das Alter des potentiellen Kunden.
 
 **Entscheidungstabelle 1 (Berechtigung_DMN_V2.dmn):** 
-
 ![Entscheidungstabelle 1](/image/Entscheidungstabelle_1.jpg)
 
 In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zur Anmietung dargestellt: Ist der Kunde 18 Jahre oder älter (>=18) und im Besitz eines Führerscheins (Führerschein = true) darf er einen Kleinwagen, Transporter oder Kombi ausleihen; besitzt der Kunde keinen Führerschein (Führerschein = false),  darf er kein Auto ausleihen; ist der Kunde jünger als 18 Jahre (Fahreralter <18) darf er auch kein Auto ausleihen; und ist der Kunde 25 Jahre oder älter (Fahreralter >=25) und im Besitz eines Führerscheins (Führerschein = true) darf er auch einen Sportwagen ausleihen.
@@ -65,7 +62,7 @@ In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zu
  
 In der Entscheidungstabelle 2 werden die Einflussfaktoren für die Berechnung der Mietdauer deutlich (1-7 Tage: 4,99 €/Tag, 8-30 Tage: 9,99 €/Tag und mehr als 30 Tage: 19,99 €/Tag sowie ein Sonderrabatt in der Sommerzeit von Mai-September: 3,99 €/Tag, weiterhin gibt es einen Sonderrabatt von 12,99 €/Tag sollte die Temperatur größer gleich 20 Grad Celsius sein). 
 Dabei wird anhand des Attributs ```date``` der Zeitraum der Anmietung berechnet, welcher für die Berechnung der Mietkosten benötigt wird. 
- 
+
 **DMN Modell 3 (Angebotspreis_DMN_V2.dmn):**
 ![Angebotspreis](/image/Mietanfrage_bearbeiten.dmn.png) 
 
@@ -86,8 +83,8 @@ Die Entscheidungstabelle 3.1 listet die verschiedenen Fahrzeugtypen auf wobei do
 
  
 **Entscheidungstabelle 3.2 Mietpreis berechnen:**
-![Mietpreis_berechnen](/image/Mietpreis_berechnen.png) 
-In der Entscheidungstabelle 3.2 wird der Mietpreis durch Addition der Mietdauer und der Kosten pro Tag sowie der Subtraktion des zustehenden Rabatts errechnet.
+![Mietpreis_berechnen](/image/Mietpreis_berechnen.png)
+In der Entscheidungstabelle 3.2 wird der Endpreis durch Multiplikation der Mietdauer und der Kosten pro Tag sowie der Subtraktion des zustehenden Rabatts errechnet.
 
 **Literal Expression 3.3 Ausgabepreis:**
 ![Ausgabepreis](/image/Ausgabepreis.jpg) 
@@ -95,14 +92,14 @@ Die Literal Expression 3.3 ist notwendig um mehrere Zwischenergebnisse abrufen z
 
 
 ## 2.	Erläuterung fachlicher und technischer Modellierungsentscheidungen
-Nachdem eine Mietanfrage eingegangen ist, wird die Aktivität „Kundendaten ausgeführt“ die als User Task modelliert. Der zuständige Mitarbeiter gibt in dieser User Task die Daten in ein Formular ein. Da wir bei der Implementierung auf den Einsatz von Java und Maven verzichtet haben, haben wir zur Erstellung der Formulare Generated Task Forms genutzt, die direkt im Camunda Modeler umgesetzt werden können. 
+Nachdem eine Mietanfrage eingegangen ist, wird die Aktivität „Kundendaten ausgeführt“ die als User Task modelliert ist. Der zuständige Mitarbeiter gibt in dieser User Task die Daten in ein Formular ein. Da wir bei der Implementierung auf den Einsatz von Java und Maven verzichtet haben, haben wir zur Erstellung der Formulare Generated Task Forms genutzt, die direkt im Camunda Modeler umgesetzt werden können. 
 
  
 Die Formularfelder sind Fahrzeugtyp, Mietdauer, Abholdatum, Mailadresse, Name, Alter und Führerschein. 
 
 -	Für das Formularfeld Fahrzeugtyp wurde der Datentyp als ```enum``` gewählt und die Fahrzeugtypen aufgelistet. Durch die Auswahl der verschiedenen Fahrzeugtypen wird verhindert, dass falsche Eingaben getätigt werden.
 -	Für die Mietdauer und das Alter wird der Datentyp ```long``` verwendet, wodurch sichergestellt wird, dass nur Zahleneingaben möglich sind. 
--	Das Formularfeld Führerschein hat den Datentyp ```boolean```, dieser nur zwei Werte annehmen kann entweder Wahr oder falsch.
+-	Das Formularfeld Führerschein hat den Datentyp ```boolean```, dieser nur zwei Werte annehmen kann entweder `true` oder `false`.
 -	Das Abholdatum hat den Datentyp ```date```, womit nur Datumangaben möglich sind.
 -	Die Formularfelder Name und Mailadresse haben den Datentyp ```String```.
 
