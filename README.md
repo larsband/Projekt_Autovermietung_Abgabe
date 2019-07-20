@@ -144,6 +144,6 @@ Unsere gesamte Implementierung fand ohne die Verwendung von Java und Maven statt
 So war es nicht möglich, eigene Formulare (Embedded Task Forms, External Task Forms) einzubinden. Erstellte Formulare ließen sich nicht deployen ohne die Verwendung von Maven. So gab es zwar eine Anleitung online, die wir leider in der Praxis nicht bei uns nicht umsetzen konnten.
 https://medium.com/@stephenrussett/deploying-embedded-forms-with-camunda-rest-api-84cf8010f8c1
 
-In einer zukünftigen Version unseres Modells würde wir von Beginn an Java verwenden, wodurch mehr technische Möglichkeiten zur Verfügung stehen, komplexere Prozessmodelle in Camunda zu implementieren.
+In einer zukünftigen Version unseres Modells würde wir von Beginn an Java verwenden, wodurch mehr technische Möglichkeiten zur Verfügung stehen komplexere Prozessmodelle in Camunda zu implementieren.
 So wäre eine Möglichkeit das Formular auf einer externen Webseite für den Kunden bereitzustellen. Auf dieser Webseite könnte der Kunde seine Mietanfrage direkt tätigen und die Gültigkeit der Daten könnte direkt geprüft werden. Der Vorteil wäre nach einer Mietanfrage müssten die Daten nicht wiederholt durch den Mitarbeiter in ein Formular eingeben werden, wodurch auch die Integrität der Daten sichergestellt wird.
 Insgesamt sind wir mit unserem Projekt sehr zufrieden. Alles, was wir uns zu Beginn des Projektes vorgenommen haben, konnte wir in der Praxis umsetzen und haben vieles Neues dazu gelernt. In der Zukunft werden wir sicherlich mit Camunda weiter experimentieren, was technisch möglich ist.
