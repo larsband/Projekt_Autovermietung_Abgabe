@@ -89,11 +89,11 @@ Nachdem eine Mietanfrage eingegangen ist, wird die Aktivität „Kundendaten aus
  
 Die Formularfelder sind Fahrzeugtyp, Mietdauer, Abholdatum, Mailadresse, Name, Alter und Führerschein. 
 
--	Für das Formularfeld Fahrzeugtyp wurde der Datentyp als „enum“ gewählt und die Fahrzeugtypen aufgelistet. Durch die Auswahl der verschiedenen Fahrzeugtypen wird verhindert, dass falsche Eingaben getätigt werden.
--	Für die Mietdauer und das Alter wird der Datentyp „long“ verwendet, wodurch sichergestellt wird, dass nur Zahleneingaben möglich sind. 
--	Das Formularfeld Führerschein hat den Datentyp „boolean“, dieser nur zwei Werte annehmen kann entweder Wahr oder falsch.
--	Das Abholdatum hat den Datentyp „date“, womit nur Datumangaben möglich sind.
--	Die Formularfelder Name und Mailadresse haben den Datentyp String.
+-	Für das Formularfeld Fahrzeugtyp wurde der Datentyp als ```enum``` gewählt und die Fahrzeugtypen aufgelistet. Durch die Auswahl der verschiedenen Fahrzeugtypen wird verhindert, dass falsche Eingaben getätigt werden.
+-	Für die Mietdauer und das Alter wird der Datentyp ```long``` verwendet, wodurch sichergestellt wird, dass nur Zahleneingaben möglich sind. 
+-	Das Formularfeld Führerschein hat den Datentyp ```boolean```, dieser nur zwei Werte annehmen kann entweder Wahr oder falsch.
+-	Das Abholdatum hat den Datentyp ```date```, womit nur Datumangaben möglich sind.
+-	Die Formularfelder Name und Mailadresse haben den Datentyp ```String```.
 
 Die Wahl der Datentypen verhindert zum einen Falscheingaben bzgl. der Datenformate und ist zum anderen nötig für weitere anwendung in den Entscheidungstabellen.
 
@@ -102,6 +102,7 @@ Bild
 Für das Versenden der Nachricht per Service Task „Mietabsage versenden“ wird der Connector ```mail-send``` verwendet, über die eine E-Mail versendet wird. Die Service Task könnte auch als Send Task modelliert werden, wir wollten nur die verschiedenen Möglichkeiten austesten und haben uns in diesem Fall für eine Service Task entschieden. Von der Implementierung gibt es jedenfalls keinen Unterschied bei der Verwendung des Connectors ```mail-send```. Die Mail wird direkt an die Emailadresse gesendet, die zu Beginn des Prozesses im Formularfeld „Mailadresse“ eingegeben wurde.
 
 Ausführliche Tutorials, wie der Mail Versand und Empfang ohne Java umgesetzt werden kann, finden sich unter:
+
 https://github.com/camunda/camunda-bpm-mail
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
@@ -117,6 +118,7 @@ if ( fahrzeugv == true ) {
 ```
 
 Eine ausführliche Erklärung, wie das Error Event mit JavaScript verwendet wird, ist auf folgender Webseite nachzulesen:
+
 https://medium.com/@stephenrussett/throwing-bpmn-errors-with-javascript-in-camunda-c678f4b7d9ff
 
 In der Call Activity „Rabatt ermitteln“ wird das BPMN Modell „Rabatt_Supprozess_BPMN_V2.bpmn“ aufgerufen, in diesem der Rabatt berechnet wird. In der Service Task „Temperatur ermitteln“ wird die externe API ```http://api.openweathermap.org/data/2.5/weather?zip=12309,de&appid=3af927f89da1cf2ac68bd304b55c4cf0``` über den ```http-connector``` aufgerufen. Dabei werden aktuellen Wetterdaten für den Postleitzahlbereich 12309 Berlin abgerufen. Im Anschluss wird per JavaScript die Temperatur aus den Informationen herausgefiltert sowie in Grad Celsius umgerechnet und im Anschluss in der Variable ```temperatur``` abgespeichert. 
@@ -131,7 +133,9 @@ connector.setVariable("temperatur",tempMsg);
 
 In der darauffolgenden Entscheidungstabelle „Rabatt_DMN“ wird über die Hit Policy ```Collect Sum``` genutzt, die die Ausgabewerte der zutreffenden Regeln zusammenrechnet, woraus sich der Rabatt ergibt.
 
-Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. Eine ausführliche Anleitung zu eingehenden Nachrichten ohne Java befindet sich auf folgenden Seiten:
+Die Entscheidung ob ein Angebot durch den Kunden angenommen wird oder nicht wird im Hauptprozess durch ein ereignisbasiertes Gateway modelliert. Je nach Rückmeldung des Kunden (eingehende Nachricht) trifft eines der modellierten Events ein und der Prozess wird beendet. 
+Eine ausführliche Anleitung zu eingehenden Nachrichten ohne Java befindet sich auf folgenden Seiten:
+
 https://github.com/camunda/camunda-bpm-mail
 https://github.com/MCikus/CamundaBPM-Send-and-Receive-Message
 
@@ -139,6 +143,7 @@ Sollte sich der Kunde innerhalb einer Woche nicht melden löst das Timer Event a
 Das Timerevent ist aktuell auf ```1000s``` eingestellt, was jedoch nur exemplarisch zum Testen des Prozesses gewählt wurde.
 
 Nähere Informationen zur Anwendung des Timer Events finden sich hier:
+
 https://docs.camunda.org/manual/7.7/reference/bpmn20/events/timer-events/
 
 Um den Angebotspreis zu berechnen, haben wir die Entscheidungstabelle „MietpreisBerechnung“ genutzt, in der der Endpreis berechnet wird. 
@@ -160,7 +165,9 @@ Das aktuelle Modell hat noch einige Schwachstellen, z.B. werden aktuell die Proz
 
 Unsere gesamte Implementierung fand ohne die Verwendung von Java und Maven statt, wodurch die Möglichkeiten der Implementierung allerdings eingeschränkt wird.
 So war es nicht möglich, eigene Formulare (Embedded Task Forms, External Task Forms) einzubinden. Erstellte Formulare ließen sich nicht deployen ohne die Verwendung von Maven. So gab es zwar eine Anleitung online, die wir leider in der Praxis nicht bei uns nicht umsetzen konnten.
+
 https://medium.com/@stephenrussett/deploying-embedded-forms-with-camunda-rest-api-84cf8010f8c1
+
 
 In einer zukünftigen Version unseres Modells würde wir von Beginn an Java verwenden, wodurch mehr technische Möglichkeiten zur Verfügung stehen komplexere Prozessmodelle in Camunda zu implementieren.
 So wäre eine Möglichkeit das Formular auf einer externen Webseite für den Kunden bereitzustellen. Auf dieser Webseite könnte der Kunde seine Mietanfrage direkt tätigen und die Gültigkeit der Daten könnte direkt geprüft werden. Der Vorteil wäre nach einer Mietanfrage müssten die Daten nicht wiederholt durch den Mitarbeiter in ein Formular eingeben werden, wodurch auch die Integrität der Daten sichergestellt wird.
