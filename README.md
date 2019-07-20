@@ -51,15 +51,23 @@ Hier wird die grundsätzliche Berechtigung zur Anmietung eines Mietwagens des po
  
 In der Entscheidungstabelle 1 werden die Einflussfaktoren für die Berechnung zur Anmietung dargestellt: Ist der Kunde 18 Jahre oder älter (>=18) und im Besitz eines Führerscheins (Führerschein = true) darf er einen Kleinwagen, Transporter oder Kombi ausleihen; besitzt der Kunde keinen Führerschein (Führerschein = false),  darf er kein Auto ausleihen; ist der Kunde jünger als 18 Jahre (Fahreralter <18) darf er auch kein Auto ausleihen; und ist der Kunde 25 Jahre oder älter (Fahreralter >=25) und im Besitz eines Führerscheins (Führerschein = true) darf er auch einen Sportwagen ausleihen.
 
-Entscheidungstabelle 2 (Rabattabgabe.dmn):
+Entscheidungstabelle 2 (Rabatt_DMN.dmn):
  
  
 In der Entscheidungstabelle 2 werden die Einflussfaktoren für die Berechnung der Mietdauer deutlich (1-7 Tage: 4,99 €/Tag, 8-30 Tage: 9,99 €/Tag und mehr als 30 Tage: 19,99 €/Tag sowie ein Sonderrabatt in der Sommerzeit von Mai-September: 3,99 €/Tag, weiterhin gibt es einen Sonderrabatt von 12,99 €/Tag sollte die Temperatur größer gleich 20 Grad Celsius sein). 
 Dabei wird anhand des Attributs „date“ der Zeitraum der Anmietung berechnet, welcher für die Berechnung der Mietkosten benötigt wird. 
  
-Entscheidungstabelle 3 (Mietanfrage_bearbeiten.dmn):
- 
-Die Entscheidungstabelle 3 stellt die Bedeutung des Fahrzeugtyps, der Preistabelle der Mietfahrzeuge, des Rabatts sowie der Mietdauer dar, woraus sich abschließend der Mietpreis berechnet. Dieser wird am Ende ausgegeben und dann an den Kunden in Form eines Angebots übermittelt.
+DMN Modell 3 (Angebotspreis_DMN_V2.dmn)
+Mithilfe des DMN Modells wird der Angebotspreis berechnet.Dieser wird am später ausgegeben und dann an den Kunden in Form eines Angebots übermittelt.
+
+Das DMN Modell 3 besteht aus vier verschiedenen Kernelementen:
+- Input Data (Fahrzeugtyp, Mietdauer, Rabatt)
+- Business Knowledge Model (Mietpreisberechnung)
+- Knowledge Source (Preistabelle Mietfahrzeuge)
+- Decision (Fahrzeugtyp Auswahl, Mietpreis berechnen)
+
+Hinzu kommt noch eine Literal Expression (Ausgabepreis). 
+
 
 Entscheidungstabelle 3.1 Fahrzeugtyp Auswahl:
  
